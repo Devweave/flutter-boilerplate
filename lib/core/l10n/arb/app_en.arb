@@ -1,0 +1,97 @@
+{
+  "@@locale": "en",
+  "appTitle": "Flutter Boilerplate",
+  "@appTitle": {
+    "description": "The application title"
+  },
+  "welcome": "Welcome",
+  "@welcome": {
+    "description": "Welcome message"
+  },
+  "login": "Login",
+  "@login": {
+    "description": "Login button label"
+  },
+  "logout": "Logout",
+  "@logout": {
+    "description": "Logout button label"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Email field label"
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Password field label"
+  },
+  "emailHint": "Enter your email",
+  "@emailHint": {
+    "description": "Hint for email field"
+  },
+  "passwordHint": "Enter your password",
+  "@passwordHint": {
+    "description": "Hint for password field"
+  },
+  "loginButton": "Login",
+  "@loginButton": {
+    "description": "Login button text"
+  },
+  "loginSuccess": "Login successful",
+  "@loginSuccess": {
+    "description": "Login success message"
+  },
+  "loginError": "Login failed",
+  "@loginError": {
+    "description": "Login error message"
+  },
+  "invalidEmailPassword": "Invalid email or password",
+  "@invalidEmailPassword": {
+    "description": "Invalid credentials error message"
+  },
+  "emptyEmailPassword": "Email and password cannot be empty",
+  "@emptyEmailPassword": {
+    "description": "Empty fields error message"
+  },
+  "home": "Home",
+  "@home": {
+    "description": "Home page label"
+  },
+  "profile": "Profile",
+  "@profile": {
+    "description": "Profile page label"
+  },
+  "hello": "Hello, {name}!",
+  "@hello": {
+    "description": "Greeting with name",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "loading": "Loading...",
+  "@loading": {
+    "description": "Loading message"
+  },
+  "error": "An error occurred",
+  "@error": {
+    "description": "General error message"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button"
+  },
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Confirm button"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Save button"
+  }
+}

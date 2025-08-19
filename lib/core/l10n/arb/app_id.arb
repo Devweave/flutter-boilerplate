@@ -1,0 +1,97 @@
+{
+  "@@locale": "id",
+  "appTitle": "Flutter Boilerplate",
+  "@appTitle": {
+    "description": "Judul aplikasi"
+  },
+  "welcome": "Selamat Datang",
+  "@welcome": {
+    "description": "Pesan selamat datang"
+  },
+  "login": "Masuk",
+  "@login": {
+    "description": "Label tombol masuk"
+  },
+  "logout": "Keluar",
+  "@logout": {
+    "description": "Label tombol keluar"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Label field email"
+  },
+  "password": "Kata Sandi",
+  "@password": {
+    "description": "Label field kata sandi"
+  },
+  "emailHint": "Masukkan email Anda",
+  "@emailHint": {
+    "description": "Hint untuk field email"
+  },
+  "passwordHint": "Masukkan kata sandi Anda",
+  "@passwordHint": {
+    "description": "Hint untuk field kata sandi"
+  },
+  "loginButton": "Masuk",
+  "@loginButton": {
+    "description": "Text tombol masuk"
+  },
+  "loginSuccess": "Berhasil masuk",
+  "@loginSuccess": {
+    "description": "Pesan sukses login"
+  },
+  "loginError": "Gagal masuk",
+  "@loginError": {
+    "description": "Pesan error login"
+  },
+  "invalidEmailPassword": "Email atau kata sandi tidak valid",
+  "@invalidEmailPassword": {
+    "description": "Pesan error email atau password salah"
+  },
+  "emptyEmailPassword": "Email dan kata sandi tidak boleh kosong",
+  "@emptyEmailPassword": {
+    "description": "Pesan error field kosong"
+  },
+  "home": "Beranda",
+  "@home": {
+    "description": "Label halaman beranda"
+  },
+  "profile": "Profil",
+  "@profile": {
+    "description": "Label halaman profil"
+  },
+  "hello": "Halo, {name}!",
+  "@hello": {
+    "description": "Sapaan dengan nama",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Ahmad"
+      }
+    }
+  },
+  "loading": "Memuat...",
+  "@loading": {
+    "description": "Pesan loading"
+  },
+  "error": "Terjadi kesalahan",
+  "@error": {
+    "description": "Pesan error umum"
+  },
+  "retry": "Coba Lagi",
+  "@retry": {
+    "description": "Tombol coba lagi"
+  },
+  "cancel": "Batal",
+  "@cancel": {
+    "description": "Tombol batal"
+  },
+  "confirm": "Konfirmasi",
+  "@confirm": {
+    "description": "Tombol konfirmasi"
+  },
+  "save": "Simpan",
+  "@save": {
+    "description": "Tombol simpan"
+  }
+}
