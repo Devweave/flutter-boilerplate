@@ -14,12 +14,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - '.github/workflows/rename-flutter-app.yml'
-
-env:
-  APP_NAME: ${{ github.event.inputs.app_name || '${{ parameters.appName }}' }}
-  PACKAGE_NAME: ${{ github.event.inputs.package_name || '${{ parameters.packageName }}' }}
 
 jobs:
   rename-app:
@@ -45,6 +39,20 @@ jobs:
           else
             echo "renamed=true" >> $GITHUB_OUTPUT
           fi
+
+      - name: Get app name and package from repository variables
+        if: steps.check-renamed.outputs.renamed == 'false'
+        id: get-params
+        run: |
+          # Use repository variables set by Backstage, fallback to workflow inputs
+          APP_NAME="${{ github.event.inputs.app_name || vars.FLUTTER_APP_NAME || 'My Flutter App' }}"
+          PACKAGE_NAME="${{ github.event.inputs.package_name || vars.FLUTTER_PACKAGE_NAME || 'com.example.myapp' }}"
+          
+          echo "app_name=$APP_NAME" >> $GITHUB_OUTPUT
+          echo "package_name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
+          
+          echo "Using App Name: $APP_NAME"
+          echo "Using Package Name: $PACKAGE_NAME"
 
       - name: Setup Dart
         if: steps.check-renamed.outputs.renamed == 'false'
@@ -86,12 +94,12 @@ jobs:
       - name: Rename App Display Name
         if: steps.check-renamed.outputs.renamed == 'false'
         run: |
-          fvm flutter pub global run rename --appname "${{ env.APP_NAME }}"
+          fvm flutter pub global run rename --appname "${{ steps.get-params.outputs.app_name }}"
         
       - name: Set Package/Bundle ID
         if: steps.check-renamed.outputs.renamed == 'false'
         run: |
-          fvm flutter pub global run rename --bundleId "${{ env.PACKAGE_NAME }}"
+          fvm flutter pub global run rename --bundleId "${{ steps.get-params.outputs.package_name }}"
 
       - name: Commit and push changes
         if: steps.check-renamed.outputs.renamed == 'false'
@@ -102,7 +110,7 @@ jobs:
           # Check if there are any changes
           if [[ -n $(git status --porcelain) ]]; then
             git add .
-            git commit -m "chore: rename Flutter app to '${{ env.APP_NAME }}' with package '${{ env.PACKAGE_NAME }}'"
+            git commit -m "chore: rename Flutter app to '${{ steps.get-params.outputs.app_name }}' with package '${{ steps.get-params.outputs.package_name }}'"
             git push
           else
             echo "No changes to commit"
