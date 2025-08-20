@@ -1,0 +1,122 @@
+name: Rename Flutter App
+
+on:
+  workflow_dispatch:
+    inputs:
+      app_name:
+        description: 'App Display Name'
+        required: true
+        type: string
+      package_name:
+        description: 'Package/Bundle ID'
+        required: true
+        type: string
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/rename-flutter-app.yml'
+
+env:
+  APP_NAME: ${{ github.event.inputs.app_name || '${{ parameters.appName }}' }}
+  PACKAGE_NAME: ${{ github.event.inputs.package_name || '${{ parameters.packageName }}' }}
+
+jobs:
+  rename-app:
+    runs-on: ubuntu-latest
+    # Only run if this is NOT the boilerplate repo AND the app hasn't been renamed yet
+    if: |
+      github.repository != 'Devweave/flutter-boilerplate' && 
+      (contains(github.event.head_commit.message, 'Initial commit') || 
+       github.event_name == 'workflow_dispatch')
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check if app already renamed
+        id: check-renamed
+        run: |
+          # Check if pubspec.yaml still contains boilerplate name
+          if grep -q "name: flutter_boilerplate" pubspec.yaml; then
+            echo "renamed=false" >> $GITHUB_OUTPUT
+          else
+            echo "renamed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Setup Dart
+        if: steps.check-renamed.outputs.renamed == 'false'
+        uses: dart-lang/setup-dart@v1
+
+      - name: Install FVM
+        if: steps.check-renamed.outputs.renamed == 'false'
+        run: dart pub global activate fvm
+
+      - name: Read Flutter version from .fvmrc
+        if: steps.check-renamed.outputs.renamed == 'false'
+        id: flutter-version
+        run: |
+          if [ -f .fvmrc ]; then
+            VERSION=$(cat .fvmrc | jq -r '.flutter' 2>/dev/null || cat .fvmrc)
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+          else
+            echo "version=stable" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install Flutter version with FVM
+        if: steps.check-renamed.outputs.renamed == 'false'
+        run: |
+          fvm install ${{ steps.flutter-version.outputs.version }}
+          fvm use ${{ steps.flutter-version.outputs.version }} --force
+
+      - name: Add FVM to PATH
+        if: steps.check-renamed.outputs.renamed == 'false'
+        run: echo "$HOME/fvm/versions/${{ steps.flutter-version.outputs.version }}/bin" >> $GITHUB_PATH
+
+      - name: Verify Flutter installation
+        if: steps.check-renamed.outputs.renamed == 'false'
+        run: fvm flutter --version
+
+      - name: Install Flutter Rename Package
+        if: steps.check-renamed.outputs.renamed == 'false'
+        run: fvm flutter pub global activate rename
+
+      - name: Rename App Display Name
+        if: steps.check-renamed.outputs.renamed == 'false'
+        run: |
+          fvm flutter pub global run rename --appname "${{ env.APP_NAME }}"
+        
+      - name: Set Package/Bundle ID
+        if: steps.check-renamed.outputs.renamed == 'false'
+        run: |
+          fvm flutter pub global run rename --bundleId "${{ env.PACKAGE_NAME }}"
+
+      - name: Commit and push changes
+        if: steps.check-renamed.outputs.renamed == 'false'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Check if there are any changes
+          if [[ -n $(git status --porcelain) ]]; then
+            git add .
+            git commit -m "chore: rename Flutter app to '${{ env.APP_NAME }}' with package '${{ env.PACKAGE_NAME }}'"
+            git push
+          else
+            echo "No changes to commit"
+          fi
+
+      - name: Remove this workflow after successful rename
+        if: steps.check-renamed.outputs.renamed == 'false'
+        run: |
+          git rm .github/workflows/rename-flutter-app.yml
+          git commit -m "chore: remove rename workflow after completion"
+          git push
+
+      - name: Skip - App already renamed
+        if: steps.check-renamed.outputs.renamed == 'true'
+        run: |
+          echo "App has already been renamed. Skipping rename process."
+          echo "If you need to rename again, use workflow_dispatch with manual inputs."
