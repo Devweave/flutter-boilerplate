@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Constants {
+  static const String kAppName = 'Flutter Boilerplate';
   static const String kBaseUrl = String.fromEnvironment('BASE_URL');
   static const bool kEnableChucker = bool.fromEnvironment(
     'ENABLE_CHUCKER',

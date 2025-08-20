@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_boilerplate/core/locator/injectable.dart';
-import 'package:flutter_boilerplate/presentation/bloc/auth/auth_bloc.dart';
 import 'package:flutter_boilerplate/presentation/pages/home/home_screen.dart';
+import 'package:flutter_boilerplate/presentation/pages/home/main_shell.dart';
 import 'package:flutter_boilerplate/presentation/pages/login/login_screen.dart';
 import 'package:go_router/go_router.dart';
 
 part 'app_routes.g.dart';
 
+// Shell Route for Bottom Navigation
+@TypedShellRoute<MyShellRouteData>(
+  routes: <TypedRoute<RouteData>>[
+    TypedGoRoute<HomeRoute>(path: '/home'),
+    TypedGoRoute<ProfileRoute>(path: '/profile'),
+  ],
+)
+class MyShellRouteData extends ShellRouteData {
+  const MyShellRouteData();
+
+  @override
+  Widget builder(BuildContext context, GoRouterState state, Widget navigator) {
+    return MainShell(child: navigator);
+  }
+}
+
+// Login Route (outside shell)
 @TypedGoRoute<LoginRoute>(
   path: '/login',
 )
@@ -16,24 +31,25 @@ class LoginRoute extends GoRouteData with _$LoginRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return BlocProvider(
-      create: (context) => getIt<AuthBloc>(),
-      child: const LoginScreen(),
-    );
+    return const LoginScreen();
   }
 }
 
-@TypedGoRoute<HomeRoute>(
-  path: '/home',
-)
 class HomeRoute extends GoRouteData with _$HomeRoute {
   const HomeRoute();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return BlocProvider(
-      create: (context) => getIt<AuthBloc>(),
-      child: const HomeScreen(),
-    );
+    return const HomeScreen();
+  }
+}
+
+// Profile Route (inside shell)
+class ProfileRoute extends GoRouteData with _$ProfileRoute {
+  const ProfileRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const ProfileScreen();
   }
 }

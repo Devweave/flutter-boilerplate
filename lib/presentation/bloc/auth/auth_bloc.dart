@@ -32,9 +32,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       _CheckAuthStatus event, Emitter<AuthState> emit) async {
     emit(state.copyWith(authResource: Resource.loading()));
 
-    final isLoggedIn = _localStorageService.isLoggedIn();
+    final isLoggedIn = await _localStorageService.isLoggedIn();
     if (isLoggedIn) {
-      final userData = _localStorageService.getUserData();
+      final userData = await _localStorageService.getUserData();
       if (userData != null) {
         try {
           final user = User.fromJson(userData);
@@ -61,6 +61,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onLogin(_Login event, Emitter<AuthState> emit) async {
     emit(state.copyWith(authResource: Resource.loading()));
+
+    await Future.delayed(const Duration(seconds: 5));
 
     final result = await _loginUseCase(LoginParams(
       email: event.email,

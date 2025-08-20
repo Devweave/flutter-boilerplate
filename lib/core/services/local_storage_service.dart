@@ -1,32 +1,45 @@
 import 'dart:convert';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 @lazySingleton
 class LocalStorageService {
   static const String _isLoggedInKey = 'is_logged_in';
   static const String _userDataKey = 'user_data';
 
-  final SharedPreferences _prefs;
+  final FlutterSecureStorage _secureStorage;
 
-  LocalStorageService(this._prefs);
+  LocalStorageService(this._secureStorage);
 
   // Authentication related methods
   Future<bool> setLoggedIn(bool isLoggedIn) async {
-    return await _prefs.setBool(_isLoggedInKey, isLoggedIn);
+    try {
+      await _secureStorage.write(
+          key: _isLoggedInKey, value: isLoggedIn.toString());
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
-  bool isLoggedIn() {
-    return _prefs.getBool(_isLoggedInKey) ?? false;
+  Future<bool> isLoggedIn() async {
+    final value = await _secureStorage.read(key: _isLoggedInKey);
+    return value == 'true';
   }
 
   Future<bool> setUserData(Map<String, dynamic> userData) async {
-    return await _prefs.setString(_userDataKey, json.encode(userData));
+    try {
+      await _secureStorage.write(
+          key: _userDataKey, value: json.encode(userData));
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
-  Map<String, dynamic>? getUserData() {
-    final userDataString = _prefs.getString(_userDataKey);
+  Future<Map<String, dynamic>?> getUserData() async {
+    final userDataString = await _secureStorage.read(key: _userDataKey);
     if (userDataString != null) {
       return json.decode(userDataString) as Map<String, dynamic>;
     }
@@ -34,40 +47,72 @@ class LocalStorageService {
   }
 
   Future<bool> clearUserData() async {
-    await _prefs.remove(_userDataKey);
-    return await _prefs.remove(_isLoggedInKey);
+    try {
+      await _secureStorage.delete(key: _userDataKey);
+      await _secureStorage.delete(key: _isLoggedInKey);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   // Generic methods for other data
   Future<bool> setString(String key, String value) async {
-    return await _prefs.setString(key, value);
+    try {
+      await _secureStorage.write(key: key, value: value);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
-  String? getString(String key) {
-    return _prefs.getString(key);
+  Future<String?> getString(String key) async {
+    return await _secureStorage.read(key: key);
   }
 
   Future<bool> setBool(String key, bool value) async {
-    return await _prefs.setBool(key, value);
+    try {
+      await _secureStorage.write(key: key, value: value.toString());
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
-  bool getBool(String key, {bool defaultValue = false}) {
-    return _prefs.getBool(key) ?? defaultValue;
+  Future<bool> getBool(String key, {bool defaultValue = false}) async {
+    final value = await _secureStorage.read(key: key);
+    return value == 'true' ? true : (value == 'false' ? false : defaultValue);
   }
 
   Future<bool> setInt(String key, int value) async {
-    return await _prefs.setInt(key, value);
+    try {
+      await _secureStorage.write(key: key, value: value.toString());
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
-  int getInt(String key, {int defaultValue = 0}) {
-    return _prefs.getInt(key) ?? defaultValue;
+  Future<int> getInt(String key, {int defaultValue = 0}) async {
+    final value = await _secureStorage.read(key: key);
+    return value != null ? int.tryParse(value) ?? defaultValue : defaultValue;
   }
 
   Future<bool> remove(String key) async {
-    return await _prefs.remove(key);
+    try {
+      await _secureStorage.delete(key: key);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   Future<bool> clear() async {
-    return await _prefs.clear();
+    try {
+      await _secureStorage.deleteAll();
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

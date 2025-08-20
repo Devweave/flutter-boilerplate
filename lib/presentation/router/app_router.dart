@@ -6,7 +6,6 @@ class AppRouter {
     initialLocation: '/login',
     routes: $appRoutes,
     redirect: (context, state) {
-      // Add authentication redirect logic here if needed
       return null;
     },
   );

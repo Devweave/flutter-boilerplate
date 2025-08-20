@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_boilerplate/domain/entities/user/user.dart';
 import 'package:flutter_boilerplate/presentation/bloc/auth/auth_bloc.dart';
 import 'package:flutter_boilerplate/presentation/router/app_routes.dart';
-import 'package:flutter_boilerplate/presentation/theme/app_colors.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -11,180 +10,71 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Beranda'),
-        actions: [
-          BlocConsumer<AuthBloc, AuthState>(
-            listener: (context, state) {
-              if (state.authResource.isInitial ||
-                  state.authResource.isError ||
-                  !state.authResource.isSuccess) {
-                const LoginRoute().go(context);
-              }
-            },
-            builder: (context, state) {
-              return IconButton(
-                icon: const Icon(Icons.logout),
-                onPressed: () {
-                  context.read<AuthBloc>().add(const AuthEvent.logout());
-                },
-              );
-            },
-          ),
-        ],
-      ),
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           if (state.authResource.isLoading) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(strokeWidth: 2),
             );
           } else if (state.authResource.isSuccess) {
             final User? user = state.authResource.data;
             if (user != null) {
-              return SingleChildScrollView(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // Welcome Card
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(24),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  width: 60,
-                                  height: 60,
-                                  decoration: const BoxDecoration(
-                                    color: AppColors.primary,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: const Icon(
-                                    Icons.person,
-                                    color: AppColors.onPrimary,
-                                    size: 32,
-                                  ),
-                                ),
-                                const SizedBox(width: 16),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Halo, ${user.name}!',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleLarge,
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        user.email,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                              color: AppColors.neutral600,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 16),
-                            Container(
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: AppColors.success.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: const Row(
-                                children: [
-                                  Icon(
-                                    Icons.check_circle_outline,
-                                    color: AppColors.success,
-                                    size: 20,
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    'Anda berhasil login!',
-                                    style: TextStyle(
-                                      color: AppColors.success,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 24),
-
-                    // Features Section
-                    Text(
-                      'Fitur Aplikasi',
+              return CustomScrollView(
+                slivers: [
+                  // Minimalist App Bar
+                  SliverAppBar(
+                    floating: true,
+                    snap: true,
+                    elevation: 0,
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    title: Text(
+                      'Beranda',
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
+                    actions: [
+                      BlocConsumer<AuthBloc, AuthState>(
+                        listener: (context, state) {
+                          if (state.authResource.isInitial ||
+                              state.authResource.isError ||
+                              !state.authResource.isSuccess) {
+                            const LoginRoute().go(context);
+                          }
+                        },
+                        builder: (context, state) {
+                          return IconButton(
+                            icon: const Icon(Icons.logout_outlined),
+                            onPressed: () {
+                              context
+                                  .read<AuthBloc>()
+                                  .add(const AuthEvent.logout());
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
 
-                    const SizedBox(height: 16),
+                  // Content
+                  SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(24, 16, 24, 100),
+                    sliver: SliverList(
+                      delegate: SliverChildListDelegate([
+                        // Welcome Section
+                        _buildWelcomeSection(context, user),
 
-                    // Feature Cards Grid
-                    GridView.count(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                      childAspectRatio: 1.2,
-                      children: [
-                        _FeatureCard(
-                          icon: Icons.account_circle,
-                          title: 'Profil',
-                          subtitle: 'Kelola profil Anda',
-                          color: AppColors.primary,
-                          onTap: () {
-                            // Navigate to profile
-                          },
-                        ),
-                        _FeatureCard(
-                          icon: Icons.settings,
-                          title: 'Pengaturan',
-                          subtitle: 'Konfigurasi aplikasi',
-                          color: AppColors.secondary,
-                          onTap: () {
-                            // Navigate to settings
-                          },
-                        ),
-                        _FeatureCard(
-                          icon: Icons.notifications,
-                          title: 'Notifikasi',
-                          subtitle: 'Kelola notifikasi',
-                          color: AppColors.info,
-                          onTap: () {
-                            // Navigate to notifications
-                          },
-                        ),
-                        _FeatureCard(
-                          icon: Icons.help,
-                          title: 'Bantuan',
-                          subtitle: 'Pusat bantuan',
-                          color: AppColors.warning,
-                          onTap: () {
-                            // Navigate to help
-                          },
-                        ),
-                      ],
+                        const SizedBox(height: 40),
+
+                        // Quick Stats
+                        _buildQuickStats(context),
+
+                        const SizedBox(height: 40),
+
+                        // Recent Activities
+                        _buildRecentActivities(context),
+                      ]),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               );
             }
           }
@@ -196,64 +86,347 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-}
 
-class _FeatureCard extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final Color color;
-  final VoidCallback onTap;
-
-  const _FeatureCard({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-    required this.color,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
+  Widget _buildWelcomeSection(BuildContext context, User user) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceVariant,
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Icon(
+                Icons.person_outline,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                size: 24,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Halo, ${user.name}',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    user.email,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 24),
+        Container(
+          width: double.infinity,
           padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surfaceVariant,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
             children: [
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  icon,
-                  color: color,
-                  size: 24,
-                ),
+              Icon(
+                Icons.check_circle_outline,
+                color: Theme.of(context).colorScheme.primary,
+                size: 20,
               ),
-              const SizedBox(height: 12),
+              const SizedBox(width: 12),
               Text(
-                title,
-                style: Theme.of(context).textTheme.titleSmall,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                subtitle,
-                style: Theme.of(context).textTheme.bodySmall,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+                'Login berhasil',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.w500,
+                    ),
               ),
             ],
           ),
         ),
+      ],
+    );
+  }
+
+  Widget _buildQuickStats(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Ringkasan',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: _buildStatCard(
+                context,
+                icon: Icons.task_alt_outlined,
+                value: '12',
+                label: 'Tugas',
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: _buildStatCard(
+                context,
+                icon: Icons.notifications_none_outlined,
+                value: '5',
+                label: 'Notifikasi',
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStatCard(
+    BuildContext context, {
+    required IconData icon,
+    required String value,
+    required String label,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surfaceVariant,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            icon,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+            size: 20,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            value,
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRecentActivities(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Aktivitas Terbaru',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            TextButton(
+              onPressed: () {
+                // Navigate to all activities
+              },
+              child: const Text('Lihat Semua'),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        ...List.generate(
+            3,
+            (index) => _buildActivityItem(
+                  context,
+                  title: 'Aktivitas ${index + 1}',
+                  subtitle: '${index + 1} jam yang lalu',
+                  icon: Icons.history,
+                )),
+      ],
+    );
+  }
+
+  Widget _buildActivityItem(
+    BuildContext context, {
+    required String title,
+    required String subtitle,
+    required IconData icon,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceVariant,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Icon(
+              icon,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              size: 18,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w500,
+                      ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// Profile Screen
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            snap: true,
+            elevation: 0,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            title: Text(
+              'Profil',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(24, 16, 24, 100),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                // Profile Header
+                Center(
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 80,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.surfaceVariant,
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        child: Icon(
+                          Icons.person_outline,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          size: 40,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'John Doe',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'demo@example.com',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant,
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 40),
+
+                // Profile Options
+                _buildProfileOption(
+                  context,
+                  icon: Icons.edit_outlined,
+                  title: 'Edit Profil',
+                  onTap: () {},
+                ),
+                _buildProfileOption(
+                  context,
+                  icon: Icons.security_outlined,
+                  title: 'Keamanan',
+                  onTap: () {},
+                ),
+                _buildProfileOption(
+                  context,
+                  icon: Icons.notifications_outlined,
+                  title: 'Notifikasi',
+                  onTap: () {},
+                ),
+                _buildProfileOption(
+                  context,
+                  icon: Icons.help_outline,
+                  title: 'Bantuan',
+                  onTap: () {},
+                ),
+                _buildProfileOption(
+                  context,
+                  icon: Icons.info_outline,
+                  title: 'Tentang',
+                  onTap: () {},
+                ),
+              ]),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProfileOption(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: ListTile(
+        leading: Icon(
+          icon,
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
+        title: Text(title),
+        trailing: Icon(
+          Icons.chevron_right,
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
+        onTap: onTap,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
       ),
     );
   }
