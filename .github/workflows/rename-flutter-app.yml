@@ -109,39 +109,10 @@ jobs:
             echo "android_enabled=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Rename App Display Name
+      - name: Rename Flutter App
         if: steps.check-renamed.outputs.renamed == 'false'
         run: |
-          TARGETS=""
-          if [ "${{ steps.check-platforms.outputs.ios_enabled }}" == "true" ]; then
-            TARGETS="$TARGETS --targets ios"
-          fi
-          if [ "${{ steps.check-platforms.outputs.android_enabled }}" == "true" ]; then
-            TARGETS="$TARGETS --targets android"
-          fi
-
-          if [ -n "$TARGETS" ]; then
-            fvm flutter pub global run rename setAppName --value "${{ steps.get-params.outputs.app_name }}" $TARGETS
-          else
-            echo "No supported platforms found"
-          fi
-
-      - name: Set Package/Bundle ID
-        if: steps.check-renamed.outputs.renamed == 'false'
-        run: |
-          TARGETS=""
-          if [ "${{ steps.check-platforms.outputs.ios_enabled }}" == "true" ]; then
-            TARGETS="$TARGETS --targets ios"
-          fi
-          if [ "${{ steps.check-platforms.outputs.android_enabled }}" == "true" ]; then
-            TARGETS="$TARGETS --targets android"
-          fi
-
-          if [ -n "$TARGETS" ]; then
-            fvm flutter pub global run rename setBundleId --value "${{ steps.get-params.outputs.package_name }}" $TARGETS
-          else
-            echo "No supported platforms found"
-          fi
+          make change-app-name
 
       - name: Commit and push changes
         if: steps.check-renamed.outputs.renamed == 'false'
