@@ -10,7 +10,7 @@ else
 	DART := fvm dart
 endif
 # Extract app_name from package_rename_config.yaml
-APP_NAME := $(shell grep 'app_name:' package_rename_config.yaml | sed 's/.*app_name:[[:space:]]*"\(.*\)".*/\1/')
+APP_NAME := $(shell grep 'app_name:' package_rename_config.yaml | head -n 1 | sed 's/.*app_name:[[:space:]]*"\(.*\)".*/\1/')
 CURRENT_APP_NAME := $(shell grep '^name:' pubspec.yaml | sed 's/^name:[[:space:]]*//')
 
 .PHONY: run build generate coverage
