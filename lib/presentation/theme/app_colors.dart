@@ -19,9 +19,9 @@ class AppColors {
   // Text Colors - High Contrast for Readability
   static const Color onPrimary = Color(0xFFFFFFFF);
   static const Color onSecondary = Color(0xFFFFFFFF);
-  static const Color onBackground = Color(0xFF1C1C1E);
   static const Color onSurface = Color(0xFF1C1C1E);
   static const Color onSurfaceVariant = Color(0xFF6C6C70);
+  static const Color surfaceContainerHighest = Color(0xFFFAFAFA);
 
   // Semantic Colors - Muted but Recognizable
   static const Color error = Color(0xFFE53E3E);

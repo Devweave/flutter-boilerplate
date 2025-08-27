@@ -17,15 +17,14 @@ class AppTheme {
         error: AppColors.error,
         surface: AppColors.surface,
         onSurface: AppColors.onSurface,
-        background: AppColors.background,
-        onBackground: AppColors.onBackground,
+        surfaceContainerHighest: AppColors.surfaceContainerHighest,
       ),
 
       // App Bar Theme - Clean and Minimal
       appBarTheme: const AppBarTheme(
         elevation: 0,
         backgroundColor: AppColors.background,
-        foregroundColor: AppColors.onBackground,
+        foregroundColor: AppColors.surfaceContainerHighest,
         surfaceTintColor: Colors.transparent,
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
@@ -33,13 +32,13 @@ class AppTheme {
           statusBarBrightness: Brightness.light,
         ),
         titleTextStyle: TextStyle(
-          color: AppColors.onBackground,
+          color: AppColors.surfaceContainerHighest,
           fontSize: 18,
           fontWeight: FontWeight.w500,
           letterSpacing: -0.2,
         ),
         iconTheme: IconThemeData(
-          color: AppColors.onBackground,
+          color: AppColors.surfaceContainerHighest,
           size: 20,
         ),
       ),
@@ -182,47 +181,47 @@ class AppTheme {
         headlineLarge: TextStyle(
           fontSize: 32,
           fontWeight: FontWeight.w300,
-          color: AppColors.onBackground,
+          color: AppColors.surfaceContainerHighest,
           letterSpacing: -0.5,
         ),
         headlineMedium: TextStyle(
           fontSize: 28,
           fontWeight: FontWeight.w400,
-          color: AppColors.onBackground,
+          color: AppColors.surfaceContainerHighest,
           letterSpacing: -0.3,
         ),
         headlineSmall: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.w400,
-          color: AppColors.onBackground,
+          color: AppColors.surfaceContainerHighest,
           letterSpacing: -0.2,
         ),
         titleLarge: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w500,
-          color: AppColors.onBackground,
+          color: AppColors.surfaceContainerHighest,
           letterSpacing: -0.1,
         ),
         titleMedium: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w500,
-          color: AppColors.onBackground,
+          color: AppColors.surfaceContainerHighest,
         ),
         titleSmall: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
-          color: AppColors.onBackground,
+          color: AppColors.surfaceContainerHighest,
         ),
         bodyLarge: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w400,
-          color: AppColors.onBackground,
+          color: AppColors.surfaceContainerHighest,
           height: 1.5,
         ),
         bodyMedium: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
-          color: AppColors.onBackground,
+          color: AppColors.surfaceContainerHighest,
           height: 1.4,
         ),
         bodySmall: TextStyle(
