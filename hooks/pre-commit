@@ -1,0 +1,21 @@
+#!/bin/sh
+# Pre-commit hook for Flutter Boilerplate
+# This hook runs code formatting and analysis before each commit
+
+echo "🪝 Running pre-commit checks..."
+
+# Format code
+echo "💅 Formatting code..."
+if ! make format; then
+    echo "❌ Code formatting failed. Please fix the issues and try again."
+    exit 1
+fi
+
+# Analyze code
+echo "🔍 Analyzing code..."
+if ! make analyze; then
+    echo "❌ Code analysis failed. Please fix the issues and try again."
+    exit 1
+fi
+
+echo "✅ Pre-commit checks passed!"

@@ -75,7 +75,7 @@ make bootstrap
 This command will:
 - Install dependencies
 - Generate code
-- Setup git hooks
+- Setup git pre-commit hooks (runs `make format && make analyze`)
 - Configure the development environment
 
 ### 4. Setup API keys
@@ -108,6 +108,7 @@ make run
 | `make coverage` | Generate HTML coverage report |
 | `make check` | Run format, analyze, and test |
 | `make rename` | Rename app and bundle ID |
+| `make setup-git-hooks` | Setup git pre-commit hooks |
 
 ### Without Make
 
@@ -154,12 +155,6 @@ make coverage
 # Run specific test files
 fvm flutter test test/unit/features/auth/
 ```
-
-### Current Test Coverage
-
-- **Overall Coverage**: 31.8% (285 of 897 lines)
-- **Total Tests**: 119 tests passing
-- **Coverage Report**: Generated in `coverage/html/index.html`
 
 ### Test Structure
 
@@ -369,6 +364,15 @@ fvm flutter build web --dart-define-from-file=api-keys.json
 - Use conventional commit messages
 - Ensure code coverage doesn't decrease
 - Run `make check` before committing
+
+### Git Hooks
+
+The project includes automatic pre-commit hooks that:
+- **Format code** using `dart format`
+- **Analyze code** using `flutter analyze`
+- **Prevent commits** if formatting or analysis fails
+
+The hooks are automatically installed when you run `make bootstrap` or manually with `make setup-git-hooks`.
 
 ## 📄 License
 
