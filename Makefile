@@ -73,11 +73,6 @@ setup-git-hooks: ## Setup git pre-commit and pre-push hooks
 		chmod +x .git/hooks/pre-commit; \
 		echo "✅ Pre-commit hook installed"; \
 	fi
-	@if [ -f hooks/pre-push ]; then \
-		cp hooks/pre-push .git/hooks/pre-push; \
-		chmod +x .git/hooks/pre-push; \
-		echo "✅ Pre-push hook installed"; \
-	fi
 	@echo "🪝 Git hooks setup complete!"
 
 # App renaming (enhanced version)
