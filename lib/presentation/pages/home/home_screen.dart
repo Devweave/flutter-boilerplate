@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_boilerplate/domain/entities/user/user.dart';
-import 'package:flutter_boilerplate/presentation/bloc/auth/auth_bloc.dart';
+import 'package:flutter_boilerplate/features/auth/domain/entities/user.dart';
+import 'package:flutter_boilerplate/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter_boilerplate/presentation/router/app_routes.dart';
 
 class HomeScreen extends StatelessWidget {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate/presentation/pages/home/home_screen.dart';
 import 'package:flutter_boilerplate/presentation/pages/home/main_shell.dart';
-import 'package:flutter_boilerplate/presentation/pages/login/login_screen.dart';
-import 'package:flutter_boilerplate/presentation/pages/todos/pages/todo_detail_page.dart';
-import 'package:flutter_boilerplate/presentation/pages/todos/pages/todos_list_page.dart';
+import 'package:flutter_boilerplate/features/auth/presentation/pages/login_screen.dart';
+import 'package:flutter_boilerplate/features/todos/presentation/pages/todo_detail_page.dart';
+import 'package:flutter_boilerplate/features/todos/presentation/pages/todos_list_page.dart';
 import 'package:go_router/go_router.dart';
 
 part 'app_routes.g.dart';
