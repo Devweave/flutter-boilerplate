@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_boilerplate/core/services/local_storage_service.dart';
+import 'package:flutter_boilerplate/core/utils/base_usecase.dart';
 import 'package:flutter_boilerplate/core/utils/resources.dart';
 import 'package:flutter_boilerplate/features/auth/domain/entities/user.dart';
 import 'package:flutter_boilerplate/features/auth/domain/usecases/login_usecase.dart';
 import 'package:flutter_boilerplate/features/auth/domain/usecases/logout_usecase.dart';
-import 'package:flutter_boilerplate/domain/usecases/base_usecase.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 

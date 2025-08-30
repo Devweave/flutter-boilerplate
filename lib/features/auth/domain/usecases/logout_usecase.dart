@@ -1,6 +1,6 @@
 import 'package:flutter_boilerplate/core/services/local_storage_service.dart';
 import 'package:flutter_boilerplate/core/utils/resources.dart';
-import 'package:flutter_boilerplate/domain/usecases/base_usecase.dart';
+import 'package:flutter_boilerplate/core/utils/base_usecase.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
