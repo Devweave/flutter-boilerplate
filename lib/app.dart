@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_boilerplate/core/utils/constants.dart';
-import 'package:flutter_boilerplate/presentation/utils/providers.dart';
+import 'package:flutter_boilerplate/features/app/presentation/utils/providers.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_boilerplate/presentation/router/app_router.dart';
-import 'package:flutter_boilerplate/presentation/theme/app_theme.dart';
+import 'package:flutter_boilerplate/features/app/presentation/router/app_router.dart';
+import 'package:flutter_boilerplate/features/app/presentation/theme/app_theme.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

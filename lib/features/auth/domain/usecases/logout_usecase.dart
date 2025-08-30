@@ -12,8 +12,13 @@ class LogoutUseCase implements BaseUseCase<bool, NoParams> {
   @override
   Future<Resource<bool>> call(NoParams params) async {
     try {
-      await _localStorageService.clearUserData();
-      return Resource.success(true);
+      final success = await _localStorageService.clearUserData();
+      if (success) {
+        return Resource.success(true);
+      } else {
+        return Resource.error(
+            'Gagal logout: Tidak dapat menghapus data pengguna');
+      }
     } catch (e) {
       return Resource.error('Gagal logout: ${e.toString()}');
     }

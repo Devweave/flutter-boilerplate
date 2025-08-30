@@ -1,30 +1,20 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter_boilerplate/features/todos/domain/entities/todo.dart';
 
-class TodoModel extends Todo {
-  const TodoModel({
-    required super.userId,
-    required super.id,
-    required super.title,
-    required super.completed,
-  });
+part 'todo_model.freezed.dart';
+part 'todo_model.g.dart';
 
-  factory TodoModel.fromJson(Map<String, dynamic> json) {
-    return TodoModel(
-      userId: json['userId'] as int,
-      id: json['id'] as int,
-      title: json['title'] as String,
-      completed: json['completed'] as bool,
-    );
-  }
+@freezed
+abstract class TodoModel with _$TodoModel {
+  const factory TodoModel({
+    required int userId,
+    required int id,
+    required String title,
+    required bool completed,
+  }) = _TodoModel;
 
-  Map<String, dynamic> toJson() {
-    return {
-      'userId': userId,
-      'id': id,
-      'title': title,
-      'completed': completed,
-    };
-  }
+  factory TodoModel.fromJson(Map<String, dynamic> json) =>
+      _$TodoModelFromJson(json);
 
   factory TodoModel.fromEntity(Todo todo) {
     return TodoModel(
@@ -32,6 +22,17 @@ class TodoModel extends Todo {
       id: todo.id,
       title: todo.title,
       completed: todo.completed,
+    );
+  }
+}
+
+extension TodoModelX on TodoModel {
+  Todo toEntity() {
+    return Todo(
+      userId: userId,
+      id: id,
+      title: title,
+      completed: completed,
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_boilerplate/presentation/pages/home/home_screen.dart';
-import 'package:flutter_boilerplate/presentation/pages/home/main_shell.dart';
+import 'package:flutter_boilerplate/features/app/presentation/pages/home/home_screen.dart';
+import 'package:flutter_boilerplate/features/app/presentation/pages/home/main_shell.dart';
+import 'package:flutter_boilerplate/features/app/presentation/pages/home/profile_screen.dart';
 import 'package:flutter_boilerplate/features/auth/presentation/pages/login_screen.dart';
 import 'package:flutter_boilerplate/features/todos/presentation/pages/todo_detail_page.dart';
 import 'package:flutter_boilerplate/features/todos/presentation/pages/todos_list_page.dart';

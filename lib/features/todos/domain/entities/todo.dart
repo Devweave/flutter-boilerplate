@@ -1,42 +1,16 @@
-class Todo {
-  final int userId;
-  final int id;
-  final String title;
-  final bool completed;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  const Todo({
-    required this.userId,
-    required this.id,
-    required this.title,
-    required this.completed,
-  });
+part 'todo.freezed.dart';
+part 'todo.g.dart';
 
-  Todo copyWith({
-    int? userId,
-    int? id,
-    String? title,
-    bool? completed,
-  }) {
-    return Todo(
-      userId: userId ?? this.userId,
-      id: id ?? this.id,
-      title: title ?? this.title,
-      completed: completed ?? this.completed,
-    );
-  }
+@freezed
+abstract class Todo with _$Todo {
+  const factory Todo({
+    required int userId,
+    required int id,
+    required String title,
+    required bool completed,
+  }) = _Todo;
 
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    return other is Todo &&
-        other.userId == userId &&
-        other.id == id &&
-        other.title == title &&
-        other.completed == completed;
-  }
-
-  @override
-  int get hashCode {
-    return userId.hashCode ^ id.hashCode ^ title.hashCode ^ completed.hashCode;
-  }
+  factory Todo.fromJson(Map<String, dynamic> json) => _$TodoFromJson(json);
 }

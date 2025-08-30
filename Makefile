@@ -98,6 +98,7 @@ coverage: test ## Generate coverage report
 	@echo "📊 Generating coverage report..."
 	genhtml coverage/lcov.info -o coverage/html
 	@echo "📊 Coverage report generated in coverage/html/"
+	$(FLUTTER) pub run covadge ./coverage/lcov.info ./
 
 # Development helpers
 dev-reset: clean bootstrap ## Reset development environment

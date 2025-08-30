@@ -1,51 +1,17 @@
-class User {
-  final String id;
-  final String email;
-  final String name;
-  final String? avatar;
-  final bool isActive;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  const User({
-    required this.id,
-    required this.email,
-    required this.name,
-    this.avatar,
-    this.isActive = false,
-  });
+part 'user.freezed.dart';
+part 'user.g.dart';
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      id: json['id'] as String,
-      email: json['email'] as String,
-      name: json['name'] as String,
-      avatar: json['avatar'] as String?,
-      isActive: json['isActive'] as bool? ?? false,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'email': email,
-      'name': name,
-      'avatar': avatar,
-      'isActive': isActive,
-    };
-  }
-
-  User copyWith({
-    String? id,
-    String? email,
-    String? name,
+@freezed
+abstract class User with _$User {
+  const factory User({
+    required String id,
+    required String email,
+    required String name,
     String? avatar,
-    bool? isActive,
-  }) {
-    return User(
-      id: id ?? this.id,
-      email: email ?? this.email,
-      name: name ?? this.name,
-      avatar: avatar ?? this.avatar,
-      isActive: isActive ?? this.isActive,
-    );
-  }
+    @Default(false) bool isActive,
+  }) = _User;
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }

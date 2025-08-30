@@ -46,3 +46,5 @@ api-keys.json
 # FVM Version Cache
 .fvm/
 .env
+
+coverage/html

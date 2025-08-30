@@ -5,7 +5,7 @@ import 'package:flutter_boilerplate/core/utils/enum.dart';
 import 'package:flutter_boilerplate/features/todos/presentation/bloc/todos_bloc.dart';
 import 'package:flutter_boilerplate/features/todos/presentation/widgets/todo_item.dart';
 import 'package:flutter_boilerplate/features/todos/presentation/widgets/todos_empty.dart';
-import 'package:flutter_boilerplate/presentation/router/app_routes.dart';
+import 'package:flutter_boilerplate/features/app/presentation/router/app_routes.dart';
 
 class TodosListPage extends StatelessWidget {
   const TodosListPage({super.key});

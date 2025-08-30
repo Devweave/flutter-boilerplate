@@ -15,24 +15,26 @@ import 'package:flutter_boilerplate/core/network/api_client.dart' as _i868;
 import 'package:flutter_boilerplate/core/network/network_module.dart' as _i594;
 import 'package:flutter_boilerplate/core/services/local_storage_service.dart'
     as _i1018;
-import 'package:flutter_boilerplate/features/todos/data/datasources/todo_remote_datasource.dart'
-    as _i302;
-import 'package:flutter_boilerplate/features/todos/data/repositories/todo_repository_impl.dart'
-    as _i598;
-import 'package:flutter_boilerplate/features/todos/domain/repositories/todo_repository.dart'
-    as _i962;
 import 'package:flutter_boilerplate/features/auth/domain/usecases/login_usecase.dart'
-    as _i878;
+    as _i668;
 import 'package:flutter_boilerplate/features/auth/domain/usecases/logout_usecase.dart'
-    as _i955;
-import 'package:flutter_boilerplate/features/todos/domain/usecases/get_todo_by_id.dart'
-    as _i982;
-import 'package:flutter_boilerplate/features/todos/domain/usecases/get_todos.dart' as _i248;
-import 'package:flutter_boilerplate/features/todos/domain/usecases/update_todo.dart' as _i497;
+    as _i261;
 import 'package:flutter_boilerplate/features/auth/presentation/bloc/auth_bloc.dart'
-    as _i40;
+    as _i761;
+import 'package:flutter_boilerplate/features/todos/data/datasources/todo_remote_datasource.dart'
+    as _i553;
+import 'package:flutter_boilerplate/features/todos/data/repositories/todo_repository_impl.dart'
+    as _i846;
+import 'package:flutter_boilerplate/features/todos/domain/repositories/todo_repository.dart'
+    as _i906;
+import 'package:flutter_boilerplate/features/todos/domain/usecases/get_todo_by_id.dart'
+    as _i899;
+import 'package:flutter_boilerplate/features/todos/domain/usecases/get_todos.dart'
+    as _i1054;
+import 'package:flutter_boilerplate/features/todos/domain/usecases/update_todo.dart'
+    as _i732;
 import 'package:flutter_boilerplate/features/todos/presentation/bloc/todos_bloc.dart'
-    as _i253;
+    as _i113;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -56,28 +58,28 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i868.ApiClient>(() => _i868.ApiClient(gh<_i361.Dio>()));
     gh.lazySingleton<_i1018.LocalStorageService>(
         () => _i1018.LocalStorageService(gh<_i558.FlutterSecureStorage>()));
-    gh.factory<_i302.TodoRemoteDataSource>(
-        () => _i302.TodoRemoteDataSourceImpl(gh<_i868.ApiClient>()));
-    gh.factory<_i962.TodoRepository>(
-        () => _i598.TodoRepositoryImpl(gh<_i302.TodoRemoteDataSource>()));
-    gh.factory<_i878.LoginUseCase>(
-        () => _i878.LoginUseCase(gh<_i1018.LocalStorageService>()));
-    gh.factory<_i955.LogoutUseCase>(
-        () => _i955.LogoutUseCase(gh<_i1018.LocalStorageService>()));
-    gh.factory<_i497.UpdateTodo>(
-        () => _i497.UpdateTodo(gh<_i962.TodoRepository>()));
-    gh.factory<_i248.GetTodos>(
-        () => _i248.GetTodos(gh<_i962.TodoRepository>()));
-    gh.factory<_i982.GetTodoById>(
-        () => _i982.GetTodoById(gh<_i962.TodoRepository>()));
-    gh.factory<_i40.AuthBloc>(() => _i40.AuthBloc(
-          gh<_i878.LoginUseCase>(),
-          gh<_i955.LogoutUseCase>(),
-          gh<_i1018.LocalStorageService>(),
+    gh.factory<_i553.TodoRemoteDataSource>(
+        () => _i553.TodoRemoteDataSourceImpl(gh<_i868.ApiClient>()));
+    gh.factory<_i906.TodoRepository>(
+        () => _i846.TodoRepositoryImpl(gh<_i553.TodoRemoteDataSource>()));
+    gh.factory<_i668.LoginUseCase>(
+        () => _i668.LoginUseCase(gh<_i1018.LocalStorageService>()));
+    gh.factory<_i261.LogoutUseCase>(
+        () => _i261.LogoutUseCase(gh<_i1018.LocalStorageService>()));
+    gh.factory<_i732.UpdateTodo>(
+        () => _i732.UpdateTodo(gh<_i906.TodoRepository>()));
+    gh.factory<_i1054.GetTodos>(
+        () => _i1054.GetTodos(gh<_i906.TodoRepository>()));
+    gh.factory<_i899.GetTodoById>(
+        () => _i899.GetTodoById(gh<_i906.TodoRepository>()));
+    gh.factory<_i113.TodosBloc>(() => _i113.TodosBloc(
+          gh<_i1054.GetTodos>(),
+          gh<_i732.UpdateTodo>(),
         ));
-    gh.factory<_i253.TodosBloc>(() => _i253.TodosBloc(
-          gh<_i248.GetTodos>(),
-          gh<_i497.UpdateTodo>(),
+    gh.factory<_i761.AuthBloc>(() => _i761.AuthBloc(
+          gh<_i668.LoginUseCase>(),
+          gh<_i261.LogoutUseCase>(),
+          gh<_i1018.LocalStorageService>(),
         ));
     return this;
   }

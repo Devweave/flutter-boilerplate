@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_boilerplate/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:flutter_boilerplate/presentation/router/app_routes.dart';
+import 'package:flutter_boilerplate/features/app/presentation/router/app_routes.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

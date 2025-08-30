@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_boilerplate/presentation/router/app_routes.dart';
+import 'package:flutter_boilerplate/features/app/presentation/router/app_routes.dart';
 import 'package:go_router/go_router.dart';
 
 class MainShell extends StatefulWidget {

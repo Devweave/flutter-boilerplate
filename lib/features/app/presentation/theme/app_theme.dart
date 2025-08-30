@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_boilerplate/presentation/theme/app_colors.dart';
+import 'package:flutter_boilerplate/features/app/presentation/theme/app_colors.dart';
 
 class AppTheme {
   static ThemeData get lightTheme {

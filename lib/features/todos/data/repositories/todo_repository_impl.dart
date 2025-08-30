@@ -17,7 +17,7 @@ class TodoRepositoryImpl implements TodoRepository {
   Future<Result<List<Todo>>> getTodos() async {
     try {
       final todos = await _remoteDataSource.getTodos();
-      return Success(todos);
+      return Success(todos.map((model) => model.toEntity()).toList());
     } on DioException catch (e) {
       return Error(_handleDioError(e));
     } catch (e) {
@@ -29,7 +29,7 @@ class TodoRepositoryImpl implements TodoRepository {
   Future<Result<Todo>> getTodoById(int id) async {
     try {
       final todo = await _remoteDataSource.getTodoById(id);
-      return Success(todo);
+      return Success(todo.toEntity());
     } on DioException catch (e) {
       return Error(_handleDioError(e));
     } catch (e) {
@@ -42,7 +42,7 @@ class TodoRepositoryImpl implements TodoRepository {
     try {
       final todoModel = TodoModel.fromEntity(todo);
       final createdTodo = await _remoteDataSource.createTodo(todoModel);
-      return Success(createdTodo);
+      return Success(createdTodo.toEntity());
     } on DioException catch (e) {
       return Error(_handleDioError(e));
     } catch (e) {
@@ -55,7 +55,7 @@ class TodoRepositoryImpl implements TodoRepository {
     try {
       final todoModel = TodoModel.fromEntity(todo);
       final updatedTodo = await _remoteDataSource.updateTodo(todoModel);
-      return Success(updatedTodo);
+      return Success(updatedTodo.toEntity());
     } on DioException catch (e) {
       return Error(_handleDioError(e));
     } catch (e) {
