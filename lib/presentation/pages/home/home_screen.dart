@@ -241,7 +241,7 @@ class HomeScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                // Navigate to all activities
+                const TodoListRoute().push(context);
               },
               child: const Text('Lihat Semua'),
             ),

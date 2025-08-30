@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate/presentation/pages/home/home_screen.dart';
 import 'package:flutter_boilerplate/presentation/pages/home/main_shell.dart';
 import 'package:flutter_boilerplate/presentation/pages/login/login_screen.dart';
+import 'package:flutter_boilerplate/presentation/pages/todos/pages/todo_detail_page.dart';
+import 'package:flutter_boilerplate/presentation/pages/todos/pages/todos_list_page.dart';
 import 'package:go_router/go_router.dart';
 
 part 'app_routes.g.dart';
@@ -51,5 +53,33 @@ class ProfileRoute extends GoRouteData with _$ProfileRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const ProfileScreen();
+  }
+}
+
+@TypedGoRoute<TodoListRoute>(
+  path: '/todos/list',
+)
+class TodoListRoute extends GoRouteData with _$TodoListRoute {
+  const TodoListRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const TodosListPage();
+  }
+}
+
+@TypedGoRoute<TodoDetailRoute>(
+  path: '/todos/detail/:todoId',
+)
+class TodoDetailRoute extends GoRouteData with _$TodoDetailRoute {
+  final String todoId;
+
+  const TodoDetailRoute({
+    required this.todoId,
+  });
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return TodoDetailPage(todoId: todoId);
   }
 }

@@ -59,10 +59,10 @@ format: ## Format code
 	$(DART) format lib/ test/ --set-exit-if-changed
 
 run: ## Run the app
-	$(FLUTTER) run --dart-define-from-file=.env
+	$(FLUTTER) run --dart-define-from-file=api-keys.json
 
 build: ## Build APK
-	$(FLUTTER) build apk --dart-define-from-file=.env
+	$(FLUTTER) build apk --dart-define-from-file=api-keys.json
 
 # Git hooks setup
 setup-git-hooks: ## Setup git pre-commit hooks

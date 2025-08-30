@@ -9,6 +9,8 @@ part of 'app_routes.dart';
 List<RouteBase> get $appRoutes => [
       $myShellRouteData,
       $loginRoute,
+      $todoListRoute,
+      $todoDetailRoute,
     ];
 
 RouteBase get $myShellRouteData => ShellRouteData.$route(
@@ -85,6 +87,64 @@ mixin _$LoginRoute on GoRouteData {
   @override
   String get location => GoRouteData.$location(
         '/login',
+      );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $todoListRoute => GoRouteData.$route(
+      path: '/todos/list',
+      factory: _$TodoListRoute._fromState,
+    );
+
+mixin _$TodoListRoute on GoRouteData {
+  static TodoListRoute _fromState(GoRouterState state) => const TodoListRoute();
+
+  @override
+  String get location => GoRouteData.$location(
+        '/todos/list',
+      );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $todoDetailRoute => GoRouteData.$route(
+      path: '/todos/detail/:todoId',
+      factory: _$TodoDetailRoute._fromState,
+    );
+
+mixin _$TodoDetailRoute on GoRouteData {
+  static TodoDetailRoute _fromState(GoRouterState state) => TodoDetailRoute(
+        todoId: state.pathParameters['todoId']!,
+      );
+
+  TodoDetailRoute get _self => this as TodoDetailRoute;
+
+  @override
+  String get location => GoRouteData.$location(
+        '/todos/detail/${Uri.encodeComponent(_self.todoId)}',
       );
 
   @override
