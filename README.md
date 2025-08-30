@@ -55,6 +55,8 @@ lib/
 
 ## 🛠️ Getting Started
 
+> **📌 Quick Start:** After cloning, **ALWAYS run `make bootstrap`** to set up git hooks and project dependencies.
+
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/Devweave/flutter-boilerplate.git
@@ -67,16 +69,18 @@ fvm install 3.32.4
 fvm use 3.32.4
 ```
 
-### 3. Bootstrap the project
+### 3. Bootstrap the project ⚠️ **REQUIRED**
 ```bash
 make bootstrap
 ```
 
-This command will:
+**⚠️ IMPORTANT:** This step is **required** for all new clones. It will:
 - Install dependencies
 - Generate code
-- Setup git pre-commit hooks (runs `make format && make analyze`)
+- **Setup git pre-commit hooks** (runs `make format && make analyze`)
 - Configure the development environment
+
+**Without running this command, git hooks won't work and code quality checks will be skipped.**
 
 ### 4. Setup API keys
 ```bash
@@ -239,6 +243,10 @@ test/
 │   └── main.dart
 ├── test/                         # Test files
 ├── coverage/                     # Coverage reports
+├── hooks/                        # Git hooks (version controlled)
+│   ├── pre-commit               # Pre-commit hook script
+│   ├── pre-push                 # Pre-push hook script
+│   └── README.md                # Hooks documentation
 ├── analysis_options.yaml         # Analysis configuration
 ├── api-keys.json                # API keys (gitignored)
 ├── api-keys.example.json        # API keys template
@@ -367,12 +375,20 @@ fvm flutter build web --dart-define-from-file=api-keys.json
 
 ### Git Hooks
 
-The project includes automatic pre-commit hooks that:
-- **Format code** using `dart format`
-- **Analyze code** using `flutter analyze`
-- **Prevent commits** if formatting or analysis fails
+The project includes version-controlled git hooks in the `hooks/` directory:
 
-The hooks are automatically installed when you run `make bootstrap` or manually with `make setup-git-hooks`.
+**Pre-commit Hook:**
+- **Automatically runs** on every `git commit`
+- **Formats code** using `dart format`
+- **Analyzes code** using `flutter analyze`
+- **Prevents commits** if formatting or analysis fails
+
+**Pre-push Hook:**
+- **Automatically runs** on every `git push`
+- **Runs all tests** using `make test`
+- **Prevents pushes** if tests fail
+
+**⚠️ SETUP REQUIRED:** The hooks are automatically installed when you run **`make bootstrap`** or manually with `make setup-git-hooks`. Since the hooks are stored in the `hooks/` directory, they're version-controlled and shared across all team members, but **each developer must run the setup command after cloning**.
 
 ## 📄 License
 
