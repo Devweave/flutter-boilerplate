@@ -15,23 +15,23 @@ import 'package:flutter_boilerplate/core/network/api_client.dart' as _i868;
 import 'package:flutter_boilerplate/core/network/network_module.dart' as _i594;
 import 'package:flutter_boilerplate/core/services/local_storage_service.dart'
     as _i1018;
-import 'package:flutter_boilerplate/data/datasources/todo_remote_datasource.dart'
+import 'package:flutter_boilerplate/features/todos/data/datasources/todo_remote_datasource.dart'
     as _i302;
-import 'package:flutter_boilerplate/data/repositories/todo_repository_impl.dart'
+import 'package:flutter_boilerplate/features/todos/data/repositories/todo_repository_impl.dart'
     as _i598;
-import 'package:flutter_boilerplate/domain/repositories/todo_repository.dart'
+import 'package:flutter_boilerplate/features/todos/domain/repositories/todo_repository.dart'
     as _i962;
-import 'package:flutter_boilerplate/domain/usecases/auth/login/login_usecase.dart'
+import 'package:flutter_boilerplate/features/auth/domain/usecases/login_usecase.dart'
     as _i878;
-import 'package:flutter_boilerplate/domain/usecases/auth/logout/logout_usecase.dart'
+import 'package:flutter_boilerplate/features/auth/domain/usecases/logout_usecase.dart'
     as _i955;
-import 'package:flutter_boilerplate/domain/usecases/get_todo_by_id.dart'
+import 'package:flutter_boilerplate/features/todos/domain/usecases/get_todo_by_id.dart'
     as _i982;
-import 'package:flutter_boilerplate/domain/usecases/get_todos.dart' as _i248;
-import 'package:flutter_boilerplate/domain/usecases/update_todo.dart' as _i497;
-import 'package:flutter_boilerplate/presentation/bloc/auth/auth_bloc.dart'
+import 'package:flutter_boilerplate/features/todos/domain/usecases/get_todos.dart' as _i248;
+import 'package:flutter_boilerplate/features/todos/domain/usecases/update_todo.dart' as _i497;
+import 'package:flutter_boilerplate/features/auth/presentation/bloc/auth_bloc.dart'
     as _i40;
-import 'package:flutter_boilerplate/presentation/pages/todos/bloc/todos_bloc.dart'
+import 'package:flutter_boilerplate/features/todos/presentation/bloc/todos_bloc.dart'
     as _i253;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
