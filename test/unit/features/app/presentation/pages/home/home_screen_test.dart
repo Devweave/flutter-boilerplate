@@ -190,7 +190,7 @@ void main() {
       // Assert - just verify the button exists (navigation requires router setup)
       final seeAllButton = find.text('Lihat Semua');
       expect(seeAllButton, findsOneWidget);
-      
+
       final textButton = tester.widget<TextButton>(
         find.ancestor(
           of: seeAllButton,

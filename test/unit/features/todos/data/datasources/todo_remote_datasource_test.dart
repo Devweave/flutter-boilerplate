@@ -243,8 +243,8 @@ void main() {
         ));
 
         // act & assert
-        expect(() => dataSource.createTodo(newTodo),
-            throwsA(isA<DioException>()));
+        expect(
+            () => dataSource.createTodo(newTodo), throwsA(isA<DioException>()));
         verify(mockApiClient.post('/todos', data: newTodo.toJson())).called(1);
       });
 
@@ -283,8 +283,7 @@ void main() {
                 ));
 
         // act & assert - should not throw
-        await expectLater(
-            dataSource.deleteTodo(todoId), completes);
+        await expectLater(dataSource.deleteTodo(todoId), completes);
         verify(mockApiClient.delete('/todos/$todoId')).called(1);
       });
 
@@ -299,8 +298,7 @@ void main() {
                 ));
 
         // act & assert - should not throw
-        await expectLater(
-            dataSource.deleteTodo(todoId), completes);
+        await expectLater(dataSource.deleteTodo(todoId), completes);
         verify(mockApiClient.delete('/todos/$todoId')).called(1);
       });
 
@@ -308,8 +306,7 @@ void main() {
         // arrange
         const todoId = 1;
 
-        when(mockApiClient.delete('/todos/$todoId'))
-            .thenThrow(DioException(
+        when(mockApiClient.delete('/todos/$todoId')).thenThrow(DioException(
           requestOptions: RequestOptions(path: '/todos/$todoId'),
           response: Response(
             statusCode: 404,
@@ -318,18 +315,16 @@ void main() {
         ));
 
         // act & assert
-        expect(() => dataSource.deleteTodo(todoId),
-            throwsA(isA<DioException>()));
+        expect(
+            () => dataSource.deleteTodo(todoId), throwsA(isA<DioException>()));
         verify(mockApiClient.delete('/todos/$todoId')).called(1);
       });
 
-      test('should throw exception when todo to delete is not found',
-          () async {
+      test('should throw exception when todo to delete is not found', () async {
         // arrange
         const todoId = 999;
 
-        when(mockApiClient.delete('/todos/$todoId'))
-            .thenThrow(DioException(
+        when(mockApiClient.delete('/todos/$todoId')).thenThrow(DioException(
           requestOptions: RequestOptions(path: '/todos/$todoId'),
           response: Response(
             statusCode: 404,
@@ -339,8 +334,8 @@ void main() {
         ));
 
         // act & assert
-        expect(() => dataSource.deleteTodo(todoId),
-            throwsA(isA<DioException>()));
+        expect(
+            () => dataSource.deleteTodo(todoId), throwsA(isA<DioException>()));
         verify(mockApiClient.delete('/todos/$todoId')).called(1);
       });
 
@@ -349,8 +344,7 @@ void main() {
         // arrange
         const todoId = 1;
 
-        when(mockApiClient.delete('/todos/$todoId'))
-            .thenThrow(DioException(
+        when(mockApiClient.delete('/todos/$todoId')).thenThrow(DioException(
           requestOptions: RequestOptions(path: '/todos/$todoId'),
           response: Response(
             statusCode: 500,
@@ -360,8 +354,8 @@ void main() {
         ));
 
         // act & assert
-        expect(() => dataSource.deleteTodo(todoId),
-            throwsA(isA<DioException>()));
+        expect(
+            () => dataSource.deleteTodo(todoId), throwsA(isA<DioException>()));
         verify(mockApiClient.delete('/todos/$todoId')).called(1);
       });
     });
@@ -405,23 +399,22 @@ void main() {
         ));
 
         // act & assert
-        expect(() => dataSource.createTodo(newTodo),
-            throwsA(isA<DioException>()));
+        expect(
+            () => dataSource.createTodo(newTodo), throwsA(isA<DioException>()));
       });
 
       test('should handle network timeout for deleteTodo', () async {
         // arrange
         const todoId = 1;
 
-        when(mockApiClient.delete('/todos/$todoId'))
-            .thenThrow(DioException(
+        when(mockApiClient.delete('/todos/$todoId')).thenThrow(DioException(
           type: DioExceptionType.connectionTimeout,
           requestOptions: RequestOptions(path: '/todos/$todoId'),
         ));
 
         // act & assert
-        expect(() => dataSource.deleteTodo(todoId),
-            throwsA(isA<DioException>()));
+        expect(
+            () => dataSource.deleteTodo(todoId), throwsA(isA<DioException>()));
       });
     });
   });

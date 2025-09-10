@@ -16,7 +16,8 @@ void main() {
 
       // Assert
       expect(dio, isA<Dio>());
-      expect(dio.options.baseUrl, equals('https://jsonplaceholder.typicode.com'));
+      expect(
+          dio.options.baseUrl, equals('https://jsonplaceholder.typicode.com'));
       expect(dio.options.connectTimeout, equals(const Duration(seconds: 30)));
       expect(dio.options.receiveTimeout, equals(const Duration(seconds: 30)));
     });

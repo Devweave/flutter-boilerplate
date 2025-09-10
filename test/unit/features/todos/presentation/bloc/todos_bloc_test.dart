@@ -11,26 +11,28 @@ import '../../../../../helpers/test_setup.dart';
 
 // Custom matchers for Resource states
 Matcher isLoadingResource() => predicate<TodosState>(
-  (state) => state.todoResource.isLoading,
-  'is loading resource',
-);
+      (state) => state.todoResource.isLoading,
+      'is loading resource',
+    );
 
 Matcher isSuccessResource(List<Todo> expectedTodos) => predicate<TodosState>(
-  (state) => state.todoResource.isSuccess && 
-            state.todoResource.data?.length == expectedTodos.length,
-  'is success resource with ${expectedTodos.length} todos',
-);
+      (state) =>
+          state.todoResource.isSuccess &&
+          state.todoResource.data?.length == expectedTodos.length,
+      'is success resource with ${expectedTodos.length} todos',
+    );
 
 Matcher isErrorResource(String expectedMessage) => predicate<TodosState>(
-  (state) => state.todoResource.isError && 
-            state.todoResource.error == expectedMessage,
-  'is error resource with message: $expectedMessage',
-);
+      (state) =>
+          state.todoResource.isError &&
+          state.todoResource.error == expectedMessage,
+      'is error resource with message: $expectedMessage',
+    );
 
 Matcher isInitialResource() => predicate<TodosState>(
-  (state) => state.todoResource.isInitial,
-  'is initial resource',
-);
+      (state) => state.todoResource.isInitial,
+      'is initial resource',
+    );
 
 void main() {
   late TodosBloc todosBloc;
@@ -165,7 +167,8 @@ void main() {
       blocTest<TodosBloc, TodosState>(
         'emits error when refresh throws exception',
         build: () {
-          when(mockGetTodos.call()).thenThrow(Exception('Unexpected refresh error'));
+          when(mockGetTodos.call())
+              .thenThrow(Exception('Unexpected refresh error'));
           return todosBloc;
         },
         seed: () => TodosState.initial().copyWith(
