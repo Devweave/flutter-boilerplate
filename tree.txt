@@ -1,0 +1,211 @@
+./
+├── analysis_options.yaml
+├── api-keys.example.json
+├── api-keys.json
+├── coverage_badge.svg
+├── flutter_boilerplate.iml
+├── hooks
+│   ├── pre-commit
+│   └── README.md
+├── l10n.yaml
+├── lib
+│   ├── app.dart
+│   ├── core
+│   │   ├── error
+│   │   │   └── failures.dart
+│   │   ├── l10n
+│   │   │   ├── app_localizations.dart
+│   │   │   ├── app_localizations_en.dart
+│   │   │   ├── app_localizations_id.dart
+│   │   │   └── arb
+│   │   │       ├── app_en.arb
+│   │   │       └── app_id.arb
+│   │   ├── locator
+│   │   │   ├── injectable.config.dart
+│   │   │   ├── injectable.dart
+│   │   │   └── register_module.dart
+│   │   ├── network
+│   │   │   ├── api_client.dart
+│   │   │   └── network_module.dart
+│   │   ├── services
+│   │   │   └── local_storage_service.dart
+│   │   └── utils
+│   │       ├── base_usecase.dart
+│   │       ├── constants.dart
+│   │       ├── enum.dart
+│   │       ├── extentions.dart
+│   │       ├── resources.dart
+│   │       └── result.dart
+│   ├── features
+│   │   ├── app
+│   │   │   └── presentation
+│   │   │       ├── pages
+│   │   │       │   └── home
+│   │   │       │       ├── home_screen.dart
+│   │   │       │       ├── main_shell.dart
+│   │   │       │       └── profile_screen.dart
+│   │   │       ├── router
+│   │   │       │   ├── app_route_observer.dart
+│   │   │       │   ├── app_router.dart
+│   │   │       │   ├── app_routes.dart
+│   │   │       │   └── app_routes.g.dart
+│   │   │       ├── theme
+│   │   │       │   ├── app_colors.dart
+│   │   │       │   └── app_theme.dart
+│   │   │       └── utils
+│   │   │           ├── app_bloc_observer.dart
+│   │   │           └── providers.dart
+│   │   ├── auth
+│   │   │   ├── data
+│   │   │   │   └── models
+│   │   │   │       ├── user_model.dart
+│   │   │   │       ├── user_model.freezed.dart
+│   │   │   │       └── user_model.g.dart
+│   │   │   ├── domain
+│   │   │   │   ├── entities
+│   │   │   │   │   ├── user.dart
+│   │   │   │   │   ├── user.freezed.dart
+│   │   │   │   │   └── user.g.dart
+│   │   │   │   └── usecases
+│   │   │   │       ├── login_usecase.dart
+│   │   │   │       └── logout_usecase.dart
+│   │   │   └── presentation
+│   │   │       ├── bloc
+│   │   │       │   ├── auth_bloc.dart
+│   │   │       │   ├── auth_bloc.freezed.dart
+│   │   │       │   ├── auth_event.dart
+│   │   │       │   └── auth_state.dart
+│   │   │       └── pages
+│   │   │           └── login_screen.dart
+│   │   └── todos
+│   │       ├── data
+│   │       │   ├── datasources
+│   │       │   │   └── todo_remote_datasource.dart
+│   │       │   ├── models
+│   │       │   │   ├── todo_model.dart
+│   │       │   │   ├── todo_model.freezed.dart
+│   │       │   │   └── todo_model.g.dart
+│   │       │   └── repositories
+│   │       │       └── todo_repository_impl.dart
+│   │       ├── domain
+│   │       │   ├── entities
+│   │       │   │   ├── todo.dart
+│   │       │   │   ├── todo.freezed.dart
+│   │       │   │   └── todo.g.dart
+│   │       │   ├── repositories
+│   │       │   │   └── todo_repository.dart
+│   │       │   └── usecases
+│   │       │       ├── get_todo_by_id.dart
+│   │       │       ├── get_todos.dart
+│   │       │       └── update_todo.dart
+│   │       └── presentation
+│   │           ├── bloc
+│   │           │   ├── todos_bloc.dart
+│   │           │   ├── todos_bloc.freezed.dart
+│   │           │   ├── todos_event.dart
+│   │           │   └── todos_state.dart
+│   │           ├── pages
+│   │           │   ├── todo_detail_page.dart
+│   │           │   └── todos_list_page.dart
+│   │           └── widgets
+│   │               ├── todo_item.dart
+│   │               └── todos_empty.dart
+│   └── main.dart
+├── LICENSE
+├── Makefile
+├── pubspec.lock
+├── pubspec.yaml
+├── README.md
+├── test
+│   ├── features
+│   │   ├── app
+│   │   ├── auth
+│   │   │   ├── domain
+│   │   │   │   └── usecases
+│   │   │   │       ├── login_usecase_test.dart
+│   │   │   │       └── logout_usecase_test.dart
+│   │   │   └── presentation
+│   │   │       └── bloc
+│   │   └── todos
+│   │       ├── data
+│   │       │   ├── models
+│   │       │   │   └── todo_model_test.dart
+│   │       │   └── repositories
+│   │       ├── domain
+│   │       │   └── usecases
+│   │       │       └── get_todos_test.dart
+│   │       └── presentation
+│   │           └── bloc
+│   ├── helpers
+│   │   ├── test_mocks.dart
+│   │   ├── test_mocks.mocks.dart
+│   │   └── test_setup.dart
+│   ├── unit
+│   │   ├── core
+│   │   │   ├── error
+│   │   │   │   └── failures_test.dart
+│   │   │   ├── network
+│   │   │   │   ├── api_client_test.dart
+│   │   │   │   └── network_module_test.dart
+│   │   │   ├── services
+│   │   │   │   ├── local_storage_service_test.dart
+│   │   │   │   └── local_storage_service_test_fixed.dart
+│   │   │   └── utils
+│   │   │       ├── constants_test.dart
+│   │   │       ├── extensions_test.dart
+│   │   │       ├── resources_test.dart
+│   │   │       └── result_test.dart
+│   │   └── features
+│   │       ├── app
+│   │       │   └── presentation
+│   │       │       ├── pages
+│   │       │       │   └── home
+│   │       │       │       ├── home_screen_test.dart
+│   │       │       │       ├── main_shell_test.dart
+│   │       │       │       └── profile_screen_test.dart
+│   │       │       ├── router
+│   │       │       │   └── app_route_observer_test.dart
+│   │       │       ├── theme
+│   │       │       │   └── app_theme_test.dart
+│   │       │       └── utils
+│   │       │           └── app_bloc_observer_test.dart
+│   │       ├── auth
+│   │       │   ├── data
+│   │       │   │   └── models
+│   │       │   │       └── user_model_test.dart
+│   │       │   ├── domain
+│   │       │   │   └── entities
+│   │       │   │       └── user_test.dart
+│   │       │   └── presentation
+│   │       │       └── bloc
+│   │       └── todos
+│   │           ├── data
+│   │           │   ├── datasources
+│   │           │   │   └── todo_remote_datasource_test.dart
+│   │           │   └── repositories
+│   │           │       └── todo_repository_impl_test.dart
+│   │           ├── domain
+│   │           │   ├── entities
+│   │           │   │   └── todo_test.dart
+│   │           │   └── usecases
+│   │           │       ├── get_todo_by_id_test.dart
+│   │           │       └── update_todo_test.dart
+│   │           └── presentation
+│   │               ├── bloc
+│   │               │   └── todos_bloc_test.dart
+│   │               └── widgets
+│   │                   ├── todo_item_test.dart
+│   │                   └── todos_empty_test.dart
+│   └── widget_test.dart
+├── tree.txt
+└── web
+    ├── favicon.png
+    ├── icons
+    │   ├── Icon-192.png
+    │   ├── Icon-512.png
+    │   ├── Icon-maskable-192.png
+    │   └── Icon-maskable-512.png
+    ├── index.html
+    └── manifest.json
+
+90 directories, 118 files

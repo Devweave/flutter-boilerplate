@@ -295,8 +295,8 @@ Add new languages by:
 
 The app uses Material 3 design with custom theming:
 
-- **Colors**: Defined in `lib/features/app/presentation/theme/app_colors.dart`
-- **Theme**: Configured in `lib/features/app/presentation/theme/app_theme.dart`
+- **Colors**: Defined in `lib/core/theme/app_colors.dart`
+- **Theme**: Configured in `lib/core/theme/app_theme.dart`
 - **Dark/Light Mode**: Automatically adapts to system preferences
 
 ## 🔄 State Management
