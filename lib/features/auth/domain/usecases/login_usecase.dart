@@ -1,24 +1,22 @@
-import 'package:flutter_boilerplate/core/services/local_storage_service.dart';
-import 'package:flutter_boilerplate/core/utils/resources.dart';
-import 'package:flutter_boilerplate/features/auth/domain/entities/user.dart';
-import 'package:flutter_boilerplate/core/utils/base_usecase.dart';
+import '../../../../core/services/local_storage_service.dart';
+import '../../../../core/utils/resources.dart';
+import '../entities/user.dart';
+import '../../../../core/utils/base_usecase.dart';
 import 'package:injectable/injectable.dart';
 
 class LoginParams {
-  final String email;
-  final String password;
-
   const LoginParams({
     required this.email,
     required this.password,
   });
+  final String email;
+  final String password;
 }
 
 @injectable
 class LoginUseCase implements BaseUseCase<User, LoginParams> {
-  final LocalStorageService _localStorageService;
-
   LoginUseCase(this._localStorageService);
+  final LocalStorageService _localStorageService;
 
   @override
   Future<Resource<User>> call(LoginParams params) async {

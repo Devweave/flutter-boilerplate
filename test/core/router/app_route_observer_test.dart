@@ -68,13 +68,17 @@ void main() {
         settings: const RouteSettings(name: '/old'),
       );
 
-      expect(() => observer.didReplace(newRoute: newRoute, oldRoute: oldRoute),
-          returnsNormally);
+      expect(
+        () => observer.didReplace(newRoute: newRoute, oldRoute: oldRoute),
+        returnsNormally,
+      );
     });
 
     test('didReplace should not throw when called with null routes', () {
-      expect(() => observer.didReplace(newRoute: null, oldRoute: null),
-          returnsNormally);
+      expect(
+        () => observer.didReplace(newRoute: null, oldRoute: null),
+        returnsNormally,
+      );
     });
 
     test('didRemove should not throw when called with routes', () {

@@ -71,7 +71,7 @@ void main() {
         final userData = {
           'id': 1,
           'name': 'Test User',
-          'email': 'test@example.com'
+          'email': 'test@example.com',
         };
         when(mockLocalStorageService.setUserData(userData))
             .thenAnswer((_) async => true);
@@ -89,7 +89,7 @@ void main() {
         final userData = {
           'id': 1,
           'name': 'Test User',
-          'email': 'test@example.com'
+          'email': 'test@example.com',
         };
         when(mockLocalStorageService.getUserData())
             .thenAnswer((_) async => userData);
@@ -213,8 +213,10 @@ void main() {
             .thenAnswer((_) async => defaultValue);
 
         // Act
-        final result = await mockLocalStorageService.getBool(key,
-            defaultValue: defaultValue);
+        final result = await mockLocalStorageService.getBool(
+          key,
+          defaultValue: defaultValue,
+        );
 
         // Assert
         expect(result, equals(defaultValue));
@@ -261,8 +263,10 @@ void main() {
             .thenAnswer((_) async => defaultValue);
 
         // Act
-        final result = await mockLocalStorageService.getInt(key,
-            defaultValue: defaultValue);
+        final result = await mockLocalStorageService.getInt(
+          key,
+          defaultValue: defaultValue,
+        );
 
         // Assert
         expect(result, equals(defaultValue));

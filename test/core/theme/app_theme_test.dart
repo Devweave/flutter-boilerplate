@@ -83,8 +83,10 @@ void main() {
       test('should use correct surface colors in color scheme', () {
         expect(lightTheme.colorScheme.surface, AppColors.surface);
         expect(lightTheme.colorScheme.onSurface, AppColors.onSurface);
-        expect(lightTheme.colorScheme.surfaceContainerHighest,
-            AppColors.surfaceContainerHighest);
+        expect(
+          lightTheme.colorScheme.surfaceContainerHighest,
+          AppColors.surfaceContainerHighest,
+        );
       });
 
       test('should use correct error color in color scheme', () {

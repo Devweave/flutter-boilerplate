@@ -20,8 +20,10 @@ void main() {
         ),
       );
 
-      expect(screenWidth,
-          tester.view.physicalSize.width / tester.view.devicePixelRatio);
+      expect(
+        screenWidth,
+        tester.view.physicalSize.width / tester.view.devicePixelRatio,
+      );
     });
 
     testWidgets('dh should return screen height', (WidgetTester tester) async {
@@ -40,8 +42,10 @@ void main() {
         ),
       );
 
-      expect(screenHeight,
-          tester.view.physicalSize.height / tester.view.devicePixelRatio);
+      expect(
+        screenHeight,
+        tester.view.physicalSize.height / tester.view.devicePixelRatio,
+      );
     });
 
     testWidgets('textScaler should return MediaQuery textScaler',

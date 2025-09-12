@@ -249,13 +249,14 @@ class HomeScreen extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         ...List.generate(
-            3,
-            (index) => _buildActivityItem(
-                  context,
-                  title: 'Aktivitas ${index + 1}',
-                  subtitle: '${index + 1} jam yang lalu',
-                  icon: Icons.history,
-                )),
+          3,
+          (index) => _buildActivityItem(
+            context,
+            title: 'Aktivitas ${index + 1}',
+            subtitle: '${index + 1} jam yang lalu',
+            icon: Icons.history,
+          ),
+        ),
       ],
     );
   }

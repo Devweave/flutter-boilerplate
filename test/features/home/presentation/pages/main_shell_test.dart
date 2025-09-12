@@ -29,9 +29,11 @@ void main() {
 
     testWidgets('should render correctly with child widget', (tester) async {
       // Act
-      await tester.pumpWidget(createTestWidget(
-        child: const Center(child: Text('Test Child')),
-      ));
+      await tester.pumpWidget(
+        createTestWidget(
+          child: const Center(child: Text('Test Child')),
+        ),
+      );
       await tester.pumpAndSettle();
 
       // Assert
@@ -101,14 +103,18 @@ void main() {
 
     testWidgets('should have animated icon switching', (tester) async {
       // Act
-      await tester.pumpWidget(createTestWidget(
-        child: const Center(child: Text('Test Child')),
-      ));
+      await tester.pumpWidget(
+        createTestWidget(
+          child: const Center(child: Text('Test Child')),
+        ),
+      );
       await tester.pumpAndSettle();
 
       // Assert - Check for AnimatedSwitcher
-      expect(find.byType(AnimatedSwitcher),
-          findsNWidgets(2)); // One for each nav item
+      expect(
+        find.byType(AnimatedSwitcher),
+        findsNWidgets(2),
+      ); // One for each nav item
 
       final animatedSwitchers = tester.widgetList<AnimatedSwitcher>(
         find.byType(AnimatedSwitcher),
@@ -121,9 +127,11 @@ void main() {
 
     testWidgets('should handle tap gesture properly', (tester) async {
       // Act
-      await tester.pumpWidget(createTestWidget(
-        child: const Center(child: Text('Test Child')),
-      ));
+      await tester.pumpWidget(
+        createTestWidget(
+          child: const Center(child: Text('Test Child')),
+        ),
+      );
       await tester.pumpAndSettle();
 
       // Assert - Check for GestureDetector
@@ -138,9 +146,11 @@ void main() {
 
     testWidgets('should have correct text styling for labels', (tester) async {
       // Act
-      await tester.pumpWidget(createTestWidget(
-        child: const Center(child: Text('Test Child')),
-      ));
+      await tester.pumpWidget(
+        createTestWidget(
+          child: const Center(child: Text('Test Child')),
+        ),
+      );
       await tester.pumpAndSettle();
 
       // Assert
@@ -158,9 +168,11 @@ void main() {
     testWidgets('should have proper spacing between icon and text',
         (tester) async {
       // Act
-      await tester.pumpWidget(createTestWidget(
-        child: const Center(child: Text('Test Child')),
-      ));
+      await tester.pumpWidget(
+        createTestWidget(
+          child: const Center(child: Text('Test Child')),
+        ),
+      );
       await tester.pumpAndSettle();
 
       // Assert - Check for SizedBox with height 4 (spacing)
@@ -205,9 +217,11 @@ void main() {
     testWidgets('should have proper container padding for nav items',
         (tester) async {
       // Act
-      await tester.pumpWidget(createTestWidget(
-        child: const Center(child: Text('Test Child')),
-      ));
+      await tester.pumpWidget(
+        createTestWidget(
+          child: const Center(child: Text('Test Child')),
+        ),
+      );
       await tester.pumpAndSettle();
 
       // Find containers inside GestureDetectors
@@ -222,17 +236,21 @@ void main() {
       for (int i = 0; i < 2; i++) {
         final container =
             tester.widgetList<Container>(navItemContainers).elementAt(i);
-        expect(container.padding,
-            equals(const EdgeInsets.symmetric(horizontal: 20)));
+        expect(
+          container.padding,
+          equals(const EdgeInsets.symmetric(horizontal: 20)),
+        );
       }
     });
 
     testWidgets('should center nav items with proper alignment',
         (tester) async {
       // Act
-      await tester.pumpWidget(createTestWidget(
-        child: const Center(child: Text('Test Child')),
-      ));
+      await tester.pumpWidget(
+        createTestWidget(
+          child: const Center(child: Text('Test Child')),
+        ),
+      );
       await tester.pumpAndSettle();
 
       // Assert - Check Row alignment

@@ -1,5 +1,5 @@
-import 'package:flutter_boilerplate/core/router/app_route_observer.dart';
-import 'package:flutter_boilerplate/core/router/app_routes.dart';
+import 'app_route_observer.dart';
+import 'app_routes.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 

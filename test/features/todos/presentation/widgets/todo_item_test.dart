@@ -77,10 +77,12 @@ void main() {
         (WidgetTester tester) async {
       bool wasToggled = false;
 
-      await tester.pumpWidget(createWidget(
-        todo: incompleteTodo,
-        onToggle: () => wasToggled = true,
-      ));
+      await tester.pumpWidget(
+        createWidget(
+          todo: incompleteTodo,
+          onToggle: () => wasToggled = true,
+        ),
+      );
 
       await tester.tap(find.byIcon(Icons.radio_button_unchecked));
       expect(wasToggled, isTrue);
@@ -90,10 +92,12 @@ void main() {
         (WidgetTester tester) async {
       bool wasTapped = false;
 
-      await tester.pumpWidget(createWidget(
-        todo: incompleteTodo,
-        onTap: () => wasTapped = true,
-      ));
+      await tester.pumpWidget(
+        createWidget(
+          todo: incompleteTodo,
+          onTap: () => wasTapped = true,
+        ),
+      );
 
       await tester.tap(find.byType(ListTile));
       expect(wasTapped, isTrue);
@@ -101,10 +105,12 @@ void main() {
 
     testWidgets('should handle null onToggle callback',
         (WidgetTester tester) async {
-      await tester.pumpWidget(createWidget(
-        todo: incompleteTodo,
-        onToggle: null,
-      ));
+      await tester.pumpWidget(
+        createWidget(
+          todo: incompleteTodo,
+          onToggle: null,
+        ),
+      );
 
       // Should not throw when tapped
       await tester.tap(find.byIcon(Icons.radio_button_unchecked));
@@ -113,10 +119,12 @@ void main() {
 
     testWidgets('should handle null onTap callback',
         (WidgetTester tester) async {
-      await tester.pumpWidget(createWidget(
-        todo: incompleteTodo,
-        onTap: null,
-      ));
+      await tester.pumpWidget(
+        createWidget(
+          todo: incompleteTodo,
+          onTap: null,
+        ),
+      );
 
       // Should not throw when tapped
       await tester.tap(find.byType(ListTile));
@@ -133,8 +141,10 @@ void main() {
       await tester.pumpWidget(createWidget(todo: incompleteTodo));
 
       final cardWidget = tester.widget<Card>(find.byType(Card));
-      expect(cardWidget.margin,
-          const EdgeInsets.symmetric(horizontal: 16, vertical: 4));
+      expect(
+        cardWidget.margin,
+        const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      );
     });
   });
 }

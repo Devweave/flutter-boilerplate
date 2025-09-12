@@ -65,7 +65,9 @@ void main() {
 
       // This test verifies that onTransition method exists and can be called
       expect(
-          () => observer.onTransition(testBloc, transition), returnsNormally);
+        () => observer.onTransition(testBloc, transition),
+        returnsNormally,
+      );
     });
 
     test('onError should be called when error occurs', () {
@@ -74,7 +76,9 @@ void main() {
 
       // This test verifies that onError method exists and can be called
       expect(
-          () => observer.onError(testBloc, error, stackTrace), returnsNormally);
+        () => observer.onError(testBloc, error, stackTrace),
+        returnsNormally,
+      );
     });
 
     test('onClose should be called when bloc is closed', () {

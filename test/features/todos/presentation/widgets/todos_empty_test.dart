@@ -126,7 +126,9 @@ void main() {
 
       expect(spacingSizedBoxes[0].height, equals(16)); // First spacing (larger)
       expect(
-          spacingSizedBoxes[1].height, equals(8)); // Second spacing (smaller)
+        spacingSizedBoxes[1].height,
+        equals(8),
+      ); // Second spacing (smaller)
     });
 
     testWidgets('should adapt to different theme contexts', (tester) async {
@@ -162,8 +164,10 @@ void main() {
 
       final subtitleSemantics =
           tester.getSemantics(find.text('Pull to refresh or check back later'));
-      expect(subtitleSemantics.label,
-          equals('Pull to refresh or check back later'));
+      expect(
+        subtitleSemantics.label,
+        equals('Pull to refresh or check back later'),
+      );
     });
 
     testWidgets('should render consistently across different screen sizes',

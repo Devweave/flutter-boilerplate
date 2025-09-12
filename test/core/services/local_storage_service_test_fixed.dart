@@ -89,30 +89,39 @@ void main() {
             () async {
           // arrange
           final userData = {
-            "id": "1",
-            "name": "John Doe",
-            "email": "john@example.com"
+            'id': '1',
+            'name': 'John Doe',
+            'email': 'john@example.com',
           };
-          when(mockSecureStorage.write(
-                  key: 'user_data', value: json.encode(userData)))
-              .thenAnswer((_) async {});
+          when(
+            mockSecureStorage.write(
+              key: 'user_data',
+              value: json.encode(userData),
+            ),
+          ).thenAnswer((_) async {});
 
           // act
           final result = await localStorageService.setUserData(userData);
 
           // assert
           expect(result, true);
-          verify(mockSecureStorage.write(
-                  key: 'user_data', value: json.encode(userData)))
-              .called(1);
+          verify(
+            mockSecureStorage.write(
+              key: 'user_data',
+              value: json.encode(userData),
+            ),
+          ).called(1);
         });
 
         test('should return false when storage throws exception', () async {
           // arrange
-          final userData = {"id": "1", "name": "John Doe"};
-          when(mockSecureStorage.write(
-                  key: 'user_data', value: json.encode(userData)))
-              .thenThrow(Exception('Storage error'));
+          final userData = {'id': '1', 'name': 'John Doe'};
+          when(
+            mockSecureStorage.write(
+              key: 'user_data',
+              value: json.encode(userData),
+            ),
+          ).thenThrow(Exception('Storage error'));
 
           // act
           final result = await localStorageService.setUserData(userData);
@@ -128,9 +137,9 @@ void main() {
           const storedData =
               '{"id":"1","name":"John Doe","email":"john@example.com"}';
           final expectedData = {
-            "id": "1",
-            "name": "John Doe",
-            "email": "john@example.com"
+            'id': '1',
+            'name': 'John Doe',
+            'email': 'john@example.com',
           };
           when(mockSecureStorage.read(key: 'user_data'))
               .thenAnswer((_) async => storedData);
@@ -257,8 +266,10 @@ void main() {
               .thenAnswer((_) async => null);
 
           // act
-          final result = await localStorageService.getBool('test_bool',
-              defaultValue: true);
+          final result = await localStorageService.getBool(
+            'test_bool',
+            defaultValue: true,
+          );
 
           // assert
           expect(result, true);

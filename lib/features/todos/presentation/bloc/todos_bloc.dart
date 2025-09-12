@@ -38,8 +38,11 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
         case Success<List<Todo>>():
           emit(state.copyWith(todoResource: Resource.success(result.data)));
         case Error<List<Todo>>():
-          emit(state.copyWith(
-              todoResource: Resource.error(result.failure.message)));
+          emit(
+            state.copyWith(
+              todoResource: Resource.error(result.failure.message),
+            ),
+          );
       }
     } catch (e) {
       emit(state.copyWith(todoResource: Resource.error(e.toString())));
@@ -59,8 +62,11 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
         case Success<List<Todo>>():
           emit(state.copyWith(todoResource: Resource.success(result.data)));
         case Error<List<Todo>>():
-          emit(state.copyWith(
-              todoResource: Resource.error(result.failure.message)));
+          emit(
+            state.copyWith(
+              todoResource: Resource.error(result.failure.message),
+            ),
+          );
       }
     } catch (e) {
       emit(state.copyWith(todoResource: Resource.error(e.toString())));
@@ -89,8 +95,11 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
             updatedTodos[todoIndex] = result.data;
             emit(state.copyWith(todoResource: Resource.success(updatedTodos)));
           case Error<Todo>():
-            emit(state.copyWith(
-                todoResource: Resource.error(result.failure.message)));
+            emit(
+              state.copyWith(
+                todoResource: Resource.error(result.failure.message),
+              ),
+            );
         }
       }
     }

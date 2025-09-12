@@ -192,8 +192,10 @@ void main() {
       // Assert - Check ListTile content padding
       final listTiles = tester.widgetList<ListTile>(find.byType(ListTile));
       for (final listTile in listTiles) {
-        expect(listTile.contentPadding,
-            equals(const EdgeInsets.symmetric(horizontal: 0, vertical: 4)));
+        expect(
+          listTile.contentPadding,
+          equals(const EdgeInsets.symmetric(horizontal: 0, vertical: 4)),
+        );
       }
     });
 

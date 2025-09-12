@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_boilerplate/features/home/presentation/pages/home_screen.dart';
-import 'package:flutter_boilerplate/features/home/presentation/pages/main_shell.dart';
-import 'package:flutter_boilerplate/features/home/presentation/pages/profile_screen.dart';
-import 'package:flutter_boilerplate/features/auth/presentation/pages/login_screen.dart';
-import 'package:flutter_boilerplate/features/todos/presentation/pages/todo_detail_page.dart';
-import 'package:flutter_boilerplate/features/todos/presentation/pages/todos_list_page.dart';
+import '../../features/home/presentation/pages/home_screen.dart';
+import '../../features/home/presentation/pages/main_shell.dart';
+import '../../features/home/presentation/pages/profile_screen.dart';
+import '../../features/auth/presentation/pages/login_screen.dart';
+import '../../features/todos/presentation/pages/todo_detail_page.dart';
+import '../../features/todos/presentation/pages/todos_list_page.dart';
 import 'package:go_router/go_router.dart';
 
 part 'app_routes.g.dart';
@@ -73,11 +73,10 @@ class TodoListRoute extends GoRouteData with _$TodoListRoute {
   path: '/todos/detail/:todoId',
 )
 class TodoDetailRoute extends GoRouteData with _$TodoDetailRoute {
-  final String todoId;
-
   const TodoDetailRoute({
     required this.todoId,
   });
+  final String todoId;
 
   @override
   Widget build(BuildContext context, GoRouterState state) {

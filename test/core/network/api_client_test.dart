@@ -27,12 +27,14 @@ void main() {
           data: 'test response',
         );
 
-        when(mockApiClient.get<String>(
-          path,
-          queryParameters: queryParameters,
-          options: options,
-          cancelToken: cancelToken,
-        )).thenAnswer((_) async => response);
+        when(
+          mockApiClient.get<String>(
+            path,
+            queryParameters: queryParameters,
+            options: options,
+            cancelToken: cancelToken,
+          ),
+        ).thenAnswer((_) async => response);
 
         // Act
         final result = await mockApiClient.get<String>(
@@ -44,12 +46,14 @@ void main() {
 
         // Assert
         expect(result, equals(response));
-        verify(mockApiClient.get<String>(
-          path,
-          queryParameters: queryParameters,
-          options: options,
-          cancelToken: cancelToken,
-        )).called(1);
+        verify(
+          mockApiClient.get<String>(
+            path,
+            queryParameters: queryParameters,
+            options: options,
+            cancelToken: cancelToken,
+          ),
+        ).called(1);
       });
 
       test('should make GET request without optional parameters', () async {
@@ -61,24 +65,28 @@ void main() {
           data: 'test response',
         );
 
-        when(mockApiClient.get<String>(
-          path,
-          queryParameters: null,
-          options: null,
-          cancelToken: null,
-        )).thenAnswer((_) async => response);
+        when(
+          mockApiClient.get<String>(
+            path,
+            queryParameters: null,
+            options: null,
+            cancelToken: null,
+          ),
+        ).thenAnswer((_) async => response);
 
         // Act
         final result = await mockApiClient.get<String>(path);
 
         // Assert
         expect(result, equals(response));
-        verify(mockApiClient.get<String>(
-          path,
-          queryParameters: null,
-          options: null,
-          cancelToken: null,
-        )).called(1);
+        verify(
+          mockApiClient.get<String>(
+            path,
+            queryParameters: null,
+            options: null,
+            cancelToken: null,
+          ),
+        ).called(1);
       });
     });
 
@@ -96,13 +104,15 @@ void main() {
           data: {'result': 'success'},
         );
 
-        when(mockApiClient.post<Map<String, dynamic>>(
-          path,
-          data: data,
-          queryParameters: queryParameters,
-          options: options,
-          cancelToken: cancelToken,
-        )).thenAnswer((_) async => response);
+        when(
+          mockApiClient.post<Map<String, dynamic>>(
+            path,
+            data: data,
+            queryParameters: queryParameters,
+            options: options,
+            cancelToken: cancelToken,
+          ),
+        ).thenAnswer((_) async => response);
 
         // Act
         final result = await mockApiClient.post<Map<String, dynamic>>(
@@ -115,13 +125,15 @@ void main() {
 
         // Assert
         expect(result, equals(response));
-        verify(mockApiClient.post<Map<String, dynamic>>(
-          path,
-          data: data,
-          queryParameters: queryParameters,
-          options: options,
-          cancelToken: cancelToken,
-        )).called(1);
+        verify(
+          mockApiClient.post<Map<String, dynamic>>(
+            path,
+            data: data,
+            queryParameters: queryParameters,
+            options: options,
+            cancelToken: cancelToken,
+          ),
+        ).called(1);
       });
     });
 
@@ -136,13 +148,15 @@ void main() {
           data: {'result': 'updated'},
         );
 
-        when(mockApiClient.put<Map<String, dynamic>>(
-          path,
-          data: data,
-          queryParameters: null,
-          options: null,
-          cancelToken: null,
-        )).thenAnswer((_) async => response);
+        when(
+          mockApiClient.put<Map<String, dynamic>>(
+            path,
+            data: data,
+            queryParameters: null,
+            options: null,
+            cancelToken: null,
+          ),
+        ).thenAnswer((_) async => response);
 
         // Act
         final result = await mockApiClient.put<Map<String, dynamic>>(
@@ -152,13 +166,15 @@ void main() {
 
         // Assert
         expect(result, equals(response));
-        verify(mockApiClient.put<Map<String, dynamic>>(
-          path,
-          data: data,
-          queryParameters: null,
-          options: null,
-          cancelToken: null,
-        )).called(1);
+        verify(
+          mockApiClient.put<Map<String, dynamic>>(
+            path,
+            data: data,
+            queryParameters: null,
+            options: null,
+            cancelToken: null,
+          ),
+        ).called(1);
       });
     });
 
@@ -171,26 +187,30 @@ void main() {
           statusCode: 204,
         );
 
-        when(mockApiClient.delete<void>(
-          path,
-          data: null,
-          queryParameters: null,
-          options: null,
-          cancelToken: null,
-        )).thenAnswer((_) async => response);
+        when(
+          mockApiClient.delete<void>(
+            path,
+            data: null,
+            queryParameters: null,
+            options: null,
+            cancelToken: null,
+          ),
+        ).thenAnswer((_) async => response);
 
         // Act
         final result = await mockApiClient.delete<void>(path);
 
         // Assert
         expect(result, equals(response));
-        verify(mockApiClient.delete<void>(
-          path,
-          data: null,
-          queryParameters: null,
-          options: null,
-          cancelToken: null,
-        )).called(1);
+        verify(
+          mockApiClient.delete<void>(
+            path,
+            data: null,
+            queryParameters: null,
+            options: null,
+            cancelToken: null,
+          ),
+        ).called(1);
       });
     });
   });
@@ -210,7 +230,9 @@ void main() {
 
       // Assert
       expect(
-          requestOptions.headers['Content-Type'], equals('application/json'));
+        requestOptions.headers['Content-Type'],
+        equals('application/json'),
+      );
       expect(requestOptions.headers['Accept'], equals('application/json'));
     });
   });

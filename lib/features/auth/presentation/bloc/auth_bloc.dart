@@ -29,7 +29,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _onCheckAuthStatus(
-      _CheckAuthStatus event, Emitter<AuthState> emit) async {
+    _CheckAuthStatus event,
+    Emitter<AuthState> emit,
+  ) async {
     emit(state.copyWith(authResource: Resource.loading()));
 
     final isLoggedIn = await _localStorageService.isLoggedIn();
@@ -38,24 +40,32 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (userData != null) {
         try {
           final user = User.fromJson(userData);
-          emit(state.copyWith(
-            authResource: Resource.success(user),
-          ));
+          emit(
+            state.copyWith(
+              authResource: Resource.success(user),
+            ),
+          );
         } catch (e) {
           await _localStorageService.clearUserData();
-          emit(state.copyWith(
-            authResource: Resource.error('Invalid user data'),
-          ));
+          emit(
+            state.copyWith(
+              authResource: Resource.error('Invalid user data'),
+            ),
+          );
         }
       } else {
-        emit(state.copyWith(
-          authResource: Resource.error('No user data found'),
-        ));
+        emit(
+          state.copyWith(
+            authResource: Resource.error('No user data found'),
+          ),
+        );
       }
     } else {
-      emit(state.copyWith(
-        authResource: Resource.error('Not logged in'),
-      ));
+      emit(
+        state.copyWith(
+          authResource: Resource.error('Not logged in'),
+        ),
+      );
     }
   }
 
@@ -64,20 +74,26 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     await Future.delayed(const Duration(seconds: 5));
 
-    final result = await _loginUseCase(LoginParams(
-      email: event.email,
-      password: event.password,
-    ));
+    final result = await _loginUseCase(
+      LoginParams(
+        email: event.email,
+        password: event.password,
+      ),
+    );
 
     result.when(
       initial: () => emit(state.copyWith(authResource: Resource.initial())),
       loading: () => emit(state.copyWith(authResource: Resource.loading())),
-      success: (user) => emit(state.copyWith(
-        authResource: Resource.success(user),
-      )),
-      error: (message) => emit(state.copyWith(
-        authResource: Resource.error(message),
-      )),
+      success: (user) => emit(
+        state.copyWith(
+          authResource: Resource.success(user),
+        ),
+      ),
+      error: (message) => emit(
+        state.copyWith(
+          authResource: Resource.error(message),
+        ),
+      ),
     );
   }
 
@@ -89,12 +105,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     result.when(
       initial: () => emit(state.copyWith(authResource: Resource.initial())),
       loading: () => emit(state.copyWith(authResource: Resource.loading())),
-      success: (_) => emit(state.copyWith(
-        authResource: Resource.initial(),
-      )),
-      error: (message) => emit(state.copyWith(
-        authResource: Resource.error(message),
-      )),
+      success: (_) => emit(
+        state.copyWith(
+          authResource: Resource.initial(),
+        ),
+      ),
+      error: (message) => emit(
+        state.copyWith(
+          authResource: Resource.error(message),
+        ),
+      ),
     );
   }
 }
