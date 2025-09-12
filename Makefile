@@ -12,8 +12,8 @@ endif
 
 # Extract app_name from package_rename_config.yaml if it exists
 ifneq (,$(wildcard package_rename_config.yaml))
-	APP_NAME := $(shell grep 'app_name:\' package_rename_config.yaml | head -n 1 | sed 's/.*app_name:[[:space:]]*"\(.*\)".*/\1/')
-	CURRENT_APP_NAME := $(shell grep '^name:\' pubspec.yaml | sed 's/^name:[[:space:]]*//')
+	APP_NAME := $(shell grep 'app_name:' package_rename_config.yaml | head -n 1 | sed 's/.*app_name:[[:space:]]*"\(.*\)".*/\1/')
+	CURRENT_APP_NAME := $(shell grep '^name:' pubspec.yaml | sed 's/^name:[[:space:]]*//')
 endif
 
 .PHONY: help bootstrap clean deps gen analyze test format run build rename setup-git-hooks
@@ -115,8 +115,8 @@ ci-check: deps gen check ## CI check pipeline
 
 # Change app name + package rename + fix pubspec + imports (existing functionality)
 change-app-name:
-	@echo "📦 Renaming app to '${APP_NAME}'"
-	@EFFECTIVE_NAME_CLEAN=$$(echo "${APP_NAME}" | tr '[:upper:]' '[:lower:]' | tr ' ' '_'); \
+	@echo "📦 Renaming app to '${APP_NAME}'"; \
+	EFFECTIVE_NAME_CLEAN=$$(echo "${APP_NAME}" | tr '[:upper:]' '[:lower:]' | tr ' ' '_'); \
 	echo "📦 Effective name: $$EFFECTIVE_NAME_CLEAN"; \
 	$(DART) run package_rename --path="package_rename_config.yaml"; \
 	sed -i.bak "s/^name: .*/name: $$EFFECTIVE_NAME_CLEAN/" pubspec.yaml && rm pubspec.yaml.bak; \
@@ -131,3 +131,4 @@ change-app-name:
 		echo "✅ catalog-info.yaml updated"; \
 	else \
 		echo "⚠️  catalog-info.yaml not found, skipping"; \
+	fi
