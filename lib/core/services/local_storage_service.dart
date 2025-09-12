@@ -16,7 +16,9 @@ class LocalStorageService {
   Future<bool> setLoggedIn(bool isLoggedIn) async {
     try {
       await _secureStorage.write(
-          key: _isLoggedInKey, value: isLoggedIn.toString());
+        key: _isLoggedInKey,
+        value: isLoggedIn.toString(),
+      );
       return true;
     } catch (e) {
       return false;
@@ -31,7 +33,9 @@ class LocalStorageService {
   Future<bool> setUserData(Map<String, dynamic> userData) async {
     try {
       await _secureStorage.write(
-          key: _userDataKey, value: json.encode(userData));
+        key: _userDataKey,
+        value: json.encode(userData),
+      );
       return true;
     } catch (e) {
       return false;

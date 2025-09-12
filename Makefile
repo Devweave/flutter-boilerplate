@@ -16,7 +16,7 @@ ifneq (,$(wildcard package_rename_config.yaml))
 	CURRENT_APP_NAME := $(shell grep '^name:\' pubspec.yaml | sed 's/^name:[[:space:]]*//')
 endif
 
-.PHONY: help bootstrap clean deps gen analyze test format run build rename
+.PHONY: help bootstrap clean deps gen analyze test format run build rename setup-git-hooks
 
 help: ## Show this help message
 	@echo 'Usage: make [target]'
@@ -65,13 +65,15 @@ build: ## Build APK
 	$(FLUTTER) build apk --dart-define-from-file=api-keys.json
 
 # Git hooks setup
-setup-git-hooks: ## Setup git pre-commit hooks
+setup-git-hooks: ## Setup git pre-commit and pre-push hooks
 	@echo "🪝 Setting up git hooks..."
 	@mkdir -p .git/hooks
-	@echo '#!/bin/sh' > .git/hooks/pre-commit
-	@echo 'make format && make analyze' >> .git/hooks/pre-commit
-	@chmod +x .git/hooks/pre-commit
-	@echo "✅ Git hooks setup complete!"
+	@if [ -f hooks/pre-commit ]; then \
+		cp hooks/pre-commit .git/hooks/pre-commit; \
+		chmod +x .git/hooks/pre-commit; \
+		echo "✅ Pre-commit hook installed"; \
+	fi
+	@echo "🪝 Git hooks setup complete!"
 
 # App renaming (enhanced version)
 rename: ## Rename app (usage: make rename APP_NAME="My App\" BUNDLE_ID="com.example.myapp")
@@ -98,6 +100,7 @@ coverage: test ## Generate coverage report
 	@echo "📊 Generating coverage report..."
 	genhtml coverage/lcov.info -o coverage/html
 	@echo "📊 Coverage report generated in coverage/html/"
+	$(FLUTTER) pub run covadge ./coverage/lcov.info ./
 
 # Development helpers
 dev-reset: clean bootstrap ## Reset development environment

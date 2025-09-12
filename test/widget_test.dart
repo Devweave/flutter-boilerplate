@@ -7,10 +7,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate/app.dart';
+import 'package:flutter_boilerplate/core/locator/injectable.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testWidgets('App initialization smoke test', (WidgetTester tester) async {
+    // Initialize dependency injection
+    setupDependencyInjection();
+
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 

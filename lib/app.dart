@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_boilerplate/core/utils/constants.dart';
-import 'package:flutter_boilerplate/presentation/utils/providers.dart';
+import 'core/utils/constants.dart';
+import 'core/presentation/utils/providers.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_boilerplate/presentation/router/app_router.dart';
-import 'package:flutter_boilerplate/presentation/theme/app_theme.dart';
+import 'core/router/app_router.dart';
+import 'core/theme/app_theme.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           Locale('id', ''), // Indonesian
           Locale('en', ''), // English
         ],
-        locale: const Locale('id', ''), // Default to Indonesian
+        locale: const Locale('id', ''),
 
         // Router
         routerConfig: AppRouter.router,

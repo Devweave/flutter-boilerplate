@@ -1,18 +1,18 @@
-import 'package:flutter_boilerplate/core/utils/enum.dart';
+import 'enum.dart';
 
 class Resource<T> {
-  final ResourceStatus status;
-  final T? data;
-  final String? error;
+  factory Resource.success(T data) =>
+      Resource._(status: ResourceStatus.success, data: data);
 
   Resource._({this.status = ResourceStatus.initial, this.data, this.error});
 
   factory Resource.initial() => Resource._(status: ResourceStatus.initial);
   factory Resource.loading() => Resource._(status: ResourceStatus.loading);
-  factory Resource.success(T data) =>
-      Resource._(status: ResourceStatus.success, data: data);
   factory Resource.error(String message) =>
       Resource._(status: ResourceStatus.failed, error: message);
+  final ResourceStatus status;
+  final T? data;
+  final String? error;
 
   bool get isLoading => status == ResourceStatus.loading;
   bool get isSuccess => status == ResourceStatus.success;

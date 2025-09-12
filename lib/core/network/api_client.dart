@@ -4,11 +4,10 @@ import 'package:requests_inspector/requests_inspector.dart';
 
 @lazySingleton
 class ApiClient {
-  final Dio _dio;
-
   ApiClient(this._dio) {
     _setupInterceptors();
   }
+  final Dio _dio;
 
   void _setupInterceptors() {
     _dio.interceptors.add(RequestsInspectorInterceptor());
