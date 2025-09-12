@@ -115,10 +115,19 @@ ci-check: deps gen check ## CI check pipeline
 
 # Change app name + package rename + fix pubspec + imports (existing functionality)
 change-app-name:
-	@echo "📦 Renaming app to '${APP_NAME}'"; \
-	EFFECTIVE_NAME_CLEAN=$$(echo "${APP_NAME}" | tr '[:upper:]' '[:lower:]' | tr ' ' '_'); \
+	@echo "📦 Renaming app to '${APP_NAME}'"
+	@EFFECTIVE_NAME_CLEAN=$$(echo "${APP_NAME}" | tr '[:upper:]' '[:lower:]' | tr ' ' '_'); \
 	echo "📦 Effective name: $$EFFECTIVE_NAME_CLEAN"; \
 	$(DART) run package_rename --path="package_rename_config.yaml"; \
-	sed -i.bak "s/^name: .*/name: $$EFFECTIVE_NAME_CLEAN/\" pubspec.yaml && rm pubspec.yaml.bak; \
-	grep -rl "package:${CURRENT_APP_NAME}/\" lib test | xargs sed -i.bak "s/package:${CURRENT_APP_NAME}\//package:$$EFFECTIVE_NAME_CLEAN\//g"; \
-	find lib test -name "*.bak" -delete
+	sed -i.bak "s/^name: .*/name: $$EFFECTIVE_NAME_CLEAN/" pubspec.yaml && rm pubspec.yaml.bak; \
+	grep -rl "package:${CURRENT_APP_NAME}/" lib test | xargs sed -i.bak "s/package:${CURRENT_APP_NAME}\//package:$$EFFECTIVE_NAME_CLEAN\//g"; \
+	find lib test -name "*.bak" -delete; \
+	if [ -f catalog-info.yaml ]; then \
+		echo "📝 Updating catalog-info.yaml"; \
+		sed -i.bak "s/^  name: .*/  name: $$EFFECTIVE_NAME_CLEAN/" catalog-info.yaml; \
+		sed -i.bak "s/^  description: .*/  description: Flutter application - ${APP_NAME}/" catalog-info.yaml; \
+		sed -i.bak "s/^  package_name: .*/  package_name: $$EFFECTIVE_NAME_CLEAN/" catalog-info.yaml; \
+		rm catalog-info.yaml.bak; \
+		echo "✅ catalog-info.yaml updated"; \
+	else \
+		echo "⚠️  catalog-info.yaml not found, skipping"; \
