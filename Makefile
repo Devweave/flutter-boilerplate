@@ -12,8 +12,8 @@ endif
 
 # Extract app_name from package_rename_config.yaml if it exists
 ifneq (,$(wildcard package_rename_config.yaml))
-	APP_NAME := $(shell grep 'app_name:\' package_rename_config.yaml | head -n 1 | sed 's/.*app_name:[[:space:]]*"\(.*\)".*/\1/')
-	CURRENT_APP_NAME := $(shell grep '^name:\' pubspec.yaml | sed 's/^name:[[:space:]]*//')
+	APP_NAME := $(shell grep 'app_name:' package_rename_config.yaml | head -n 1 | sed 's/.*app_name:[[:space:]]*"\(.*\)".*/\1/')
+	CURRENT_APP_NAME := $(shell grep '^name:' pubspec.yaml | sed 's/^name:[[:space:]]*//')
 endif
 
 .PHONY: help bootstrap clean deps gen analyze test format run build rename setup-git-hooks
@@ -119,6 +119,15 @@ change-app-name:
 	EFFECTIVE_NAME_CLEAN=$$(echo "${APP_NAME}" | tr '[:upper:]' '[:lower:]' | tr ' ' '_'); \
 	echo "📦 Effective name: $$EFFECTIVE_NAME_CLEAN"; \
 	$(DART) run package_rename --path="package_rename_config.yaml"; \
-	sed -i.bak "s/^name: .*/name: $$EFFECTIVE_NAME_CLEAN/\" pubspec.yaml && rm pubspec.yaml.bak; \
-	grep -rl "package:${CURRENT_APP_NAME}/\" lib test | xargs sed -i.bak "s/package:${CURRENT_APP_NAME}\//package:$$EFFECTIVE_NAME_CLEAN\//g"; \
-	find lib test -name "*.bak" -delete
+	sed -i.bak "s/^name: .*/name: $$EFFECTIVE_NAME_CLEAN/" pubspec.yaml && rm pubspec.yaml.bak; \
+	grep -rl "package:${CURRENT_APP_NAME}/" lib test | xargs sed -i.bak "s/package:${CURRENT_APP_NAME}\//package:$$EFFECTIVE_NAME_CLEAN\//g"; \
+	find lib test -name "*.bak" -delete; \
+	if [ -f catalog-info.yaml ]; then \
+		echo "📝 Updating catalog-info.yaml"; \
+		sed -i.bak "s/^  description: .*/  description: Flutter application - ${APP_NAME}/" catalog-info.yaml; \
+		sed -i.bak "s/^  package_name: .*/  package_name: $$EFFECTIVE_NAME_CLEAN/" catalog-info.yaml; \
+		rm catalog-info.yaml.bak; \
+		echo "✅ catalog-info.yaml updated"; \
+	else \
+		echo "⚠️  catalog-info.yaml not found, skipping"; \
+	fi
