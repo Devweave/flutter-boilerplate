@@ -29,11 +29,10 @@ lib/
 │   ├── l10n/                      # Localization files
 │   ├── locator/                   # Dependency injection setup
 │   ├── network/                   # API client and network configuration
-│   ├── services/                  # Core services (storage, etc.)
-│   └── utils/                     # Utility classes and helpers
+│   ├── services/                  # Core services (storage, etc.)\n   └── utils/                     # Utility classes and helpers
 ├── features/                      # Feature modules
 │   ├── auth/                      # Authentication feature
-│   │   ├── data/                  # Data layer (models, repositories, data sources)
+│   │   ├── data/                  # Data layer (models, repositories)
 │   │   ├── domain/                # Domain layer (entities, use cases, repositories)
 │   │   └── presentation/          # Presentation layer (pages, widgets, BLoC)
 │   ├── todos/                     # Todo management feature

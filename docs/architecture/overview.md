@@ -19,22 +19,22 @@ graph TB
     
     subgraph Data Layer
         RI[Repository Implementations]
-        DS[Data Sources]
         M[Models]
+        API[ApiClient]
     end
     
     subgraph External
-        API[Remote API]
-        DB[Local Storage]
+        Remote[Remote API]
+        Local[Local Storage]
     end
     
     UI --> BLoC
     BLoC --> UC
     UC --> R
     R --> RI
-    RI --> DS
-    DS --> API
-    DS --> DB
+    RI --> API
+    API --> Remote
+    API --> Local
     M -.implements.-> E
 ```
 
@@ -71,10 +71,10 @@ The core business logic layer. Contains:
 Handles data operations and external communications. Contains:
 
 - **Models**: Data transfer objects with JSON serialization
-- **Repository Implementations**: Concrete implementations of domain repositories
-- **Data Sources**: API clients, local storage, etc.
+- **Repository Implementations**: Concrete implementations that use `ApiClient` directly
+- **ApiClient**: Dio-based HTTP client for network calls
 
-**Key Principle**: This layer implements the interfaces defined in the domain layer.
+**Key Principle**: This layer implements the interfaces defined in the domain layer. Repositories directly use `ApiClient` for network operations, keeping the architecture simple and pragmatic.
 
 ## Dependency Rule
 
@@ -93,18 +93,15 @@ Presentation → Domain ← Data
 ```
 lib/features/todos/
 ├── data/
-│   ├── datasources/
-│   │   ├── todo_local_data_source.dart
-│   │   └── todo_remote_data_source.dart
 │   ├── models/
-│   │   └── todo_model.dart
+│   │   └── todo_model.dart          # JSON serialization
 │   └── repositories/
-│       └── todo_repository_impl.dart
+│       └── todo_repository_impl.dart # API calls + error handling
 ├── domain/
 │   ├── entities/
-│   │   └── todo.dart
+│   │   └── todo.dart                 # Business object
 │   ├── repositories/
-│   │   └── todo_repository.dart
+│   │   └── todo_repository.dart      # Abstract interface
 │   └── usecases/
 │       ├── get_todos.dart
 │       ├── create_todo.dart
@@ -120,13 +117,49 @@ lib/features/todos/
         └── todo_item.dart
 ```
 
+## Repository Implementation Example
+
+Repositories directly use `ApiClient` for simplicity and `DioErrorHandler` for consistent error handling:
+
+```dart
+@Injectable(as: TodoRepository)
+class TodoRepositoryImpl implements TodoRepository {
+  final ApiClient _apiClient;
+
+  TodoRepositoryImpl(this._apiClient);
+
+  @override
+  Future<Result<List<Todo>>> getTodos() async {
+    try {
+      final response = await _apiClient.get('/todos');
+      final List<dynamic> jsonList = response.data as List<dynamic>;
+      final todos = jsonList
+          .map((json) => TodoModel.fromJson(json))
+          .map((model) => model.toEntity())
+          .toList();
+      return Success(todos);
+    } on DioException catch (e) {
+      return Error(DioErrorHandler.handleDioError(e));
+    } catch (e) {
+      return Error(ServerFailure(e.toString()));
+    }
+  }
+}
+```
+
+**Key Utilities:**
+- **`DioErrorHandler`**: Converts `DioException` to appropriate `Failure` types
+- **`Result<T>`**: Type-safe success/error handling
+- **`ApiClient`**: Dio-based HTTP client
+
 ## Benefits
 
 ✅ **Testability**: Each layer can be tested independently  
 ✅ **Maintainability**: Clear separation of concerns  
 ✅ **Scalability**: Easy to add new features  
 ✅ **Flexibility**: Easy to swap implementations  
-✅ **Independence**: Business logic independent of frameworks
+✅ **Independence**: Business logic independent of frameworks  
+✅ **Simplicity**: No unnecessary abstraction layers
 
 ## Learn More
 

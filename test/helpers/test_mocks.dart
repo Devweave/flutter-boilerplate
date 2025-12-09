@@ -2,7 +2,6 @@ import 'package:mockito/annotations.dart';
 import 'package:flutter_boilerplate/core/services/local_storage_service.dart';
 import 'package:flutter_boilerplate/core/network/api_client.dart';
 import 'package:flutter_boilerplate/features/todos/domain/repositories/todo_repository.dart';
-import 'package:flutter_boilerplate/features/todos/data/datasources/todo_remote_datasource.dart';
 import 'package:flutter_boilerplate/features/todos/domain/usecases/get_todos.dart';
 import 'package:flutter_boilerplate/features/todos/domain/usecases/get_todo_by_id.dart';
 import 'package:flutter_boilerplate/features/todos/domain/usecases/update_todo.dart';
@@ -21,7 +20,6 @@ import 'package:flutter_boilerplate/features/auth/presentation/bloc/auth_bloc.da
 
   // Todo feature
   TodoRepository,
-  TodoRemoteDataSource,
   GetTodos,
   GetTodoById,
   UpdateTodo,

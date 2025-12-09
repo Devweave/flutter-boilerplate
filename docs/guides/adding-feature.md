@@ -7,7 +7,7 @@ This guide walks you through creating a new feature module following Clean Archi
 Create the folder structure for your feature:
 
 ```bash
-mkdir -p lib/features/your_feature/{data/{datasources,models,repositories},domain/{entities,repositories,usecases},presentation/{bloc,pages,widgets}}
+mkdir -p lib/features/your_feature/{data/{models,repositories},domain/{entities,repositories,usecases},presentation/{bloc,pages,widgets}}
 ```
 
 ## Step 2: Define the Entity (Domain Layer)
@@ -36,14 +36,14 @@ Create the repository interface in `lib/features/your_feature/domain/repositorie
 
 ```dart
 // lib/features/your_feature/domain/repositories/your_repository.dart
-import 'package:dartz/dartz.dart';
-import '../../../../core/error/failures.dart';
+import 'package:flutter_boilerplate/core/utils/result.dart';
+import 'package:flutter_boilerplate/core/error/failures.dart';
 import '../entities/your_entity.dart';
 
 abstract class YourRepository {
-  Future<Either<Failure, List<YourEntity>>> getItems();
-  Future<Either<Failure, YourEntity>> getItem(String id);
-  Future<Either<Failure, void>> createItem(YourEntity entity);
+  Future<Result<List<YourEntity>>> getItems();
+  Future<Result<YourEntity>> getItem(String id);
+  Future<Result<void>> createItem(YourEntity entity);
 }
 ```
 
@@ -53,10 +53,9 @@ Create use cases in `lib/features/your_feature/domain/usecases/`:
 
 ```dart
 // lib/features/your_feature/domain/usecases/get_items.dart
-import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import '../../../../core/error/failures.dart';
 import '../../../../core/utils/base_usecase.dart';
+import '../../../../core/utils/result.dart';
 import '../entities/your_entity.dart';
 import '../repositories/your_repository.dart';
 
@@ -67,7 +66,7 @@ class GetItems implements UseCase<List<YourEntity>, NoParams> {
   GetItems(this.repository);
 
   @override
-  Future<Either<Failure, List<YourEntity>>> call(NoParams params) {
+  Future<Result<List<YourEntity>>> call(NoParams params) {
     return repository.getItems();
   }
 }
@@ -101,72 +100,82 @@ class YourModel with _$YourModel {
         id: id,
         name: name,
       );
+      
+  factory YourModel.fromEntity(YourEntity entity) => YourModel(
+        id: entity.id,
+        name: entity.name,
+      );
 }
 ```
 
-## Step 6: Create Data Source (Data Layer)
-
-Create data sources in `lib/features/your_feature/data/datasources/`:
-
-```dart
-// lib/features/your_feature/data/datasources/your_remote_data_source.dart
-import 'package:injectable/injectable.dart';
-import '../../../../core/network/api_client.dart';
-import '../models/your_model.dart';
-
-abstract class YourRemoteDataSource {
-  Future<List<YourModel>> getItems();
-}
-
-@Injectable(as: YourRemoteDataSource)
-class YourRemoteDataSourceImpl implements YourRemoteDataSource {
-  final ApiClient apiClient;
-
-  YourRemoteDataSourceImpl(this.apiClient);
-
-  @override
-  Future<List<YourModel>> getItems() async {
-    final response = await apiClient.get('/your-endpoint');
-    return (response.data as List)
-        .map((json) => YourModel.fromJson(json))
-        .toList();
-  }
-}
-```
-
-## Step 7: Implement Repository (Data Layer)
+## Step 6: Implement Repository (Data Layer)
 
 Create repository implementation in `lib/features/your_feature/data/repositories/`:
 
 ```dart
 // lib/features/your_feature/data/repositories/your_repository_impl.dart
-import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import '../../../../core/error/failures.dart';
+import '../../../../core/network/api_client.dart';
+import '../../../../core/utils/dio_error_handler.dart';
+import '../../../../core/utils/result.dart';
 import '../../domain/entities/your_entity.dart';
 import '../../domain/repositories/your_repository.dart';
-import '../datasources/your_remote_data_source.dart';
+import '../models/your_model.dart';
 
 @Injectable(as: YourRepository)
 class YourRepositoryImpl implements YourRepository {
-  final YourRemoteDataSource remoteDataSource;
+  final ApiClient _apiClient;
 
-  YourRepositoryImpl(this.remoteDataSource);
+  YourRepositoryImpl(this._apiClient);
 
   @override
-  Future<Either<Failure, List<YourEntity>>> getItems() async {
+  Future<Result<List<YourEntity>>> getItems() async {
     try {
-      final models = await remoteDataSource.getItems();
-      final entities = models.map((model) => model.toEntity()).toList();
-      return Right(entities);
+      final response = await _apiClient.get('/your-endpoint');
+      final List<dynamic> jsonList = response.data as List<dynamic>;
+      final items = jsonList
+          .map((json) => YourModel.fromJson(json))
+          .map((model) => model.toEntity())
+          .toList();
+      return Success(items);
+    } on DioException catch (e) {
+      return Error(DioErrorHandler.handleDioError(e));
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Error(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Result<YourEntity>> getItem(String id) async {
+    try {
+      final response = await _apiClient.get('/your-endpoint/$id');
+      final model = YourModel.fromJson(response.data);
+      return Success(model.toEntity());
+    } on DioException catch (e) {
+      return Error(DioErrorHandler.handleDioError(e));
+    } catch (e) {
+      return Error(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Result<void>> createItem(YourEntity entity) async {
+    try {
+      final model = YourModel.fromEntity(entity);
+      await _apiClient.post('/your-endpoint', data: model.toJson());
+      return const Success(null);
+    } on DioException catch (e) {
+      return Error(DioErrorHandler.handleDioError(e));
+    } catch (e) {
+      return Error(ServerFailure(e.toString()));
     }
   }
 }
 ```
 
-## Step 8: Create BLoC (Presentation Layer)
+## Step 7: Create BLoC (Presentation Layer)
 
 Create BLoC files in `lib/features/your_feature/presentation/bloc/`:
 
@@ -178,6 +187,7 @@ import 'package:injectable/injectable.dart';
 import '../../domain/entities/your_entity.dart';
 import '../../domain/usecases/get_items.dart';
 import '../../../../core/utils/base_usecase.dart';
+import '../../../../core/utils/result.dart';
 
 part 'your_event.dart';
 part 'your_state.dart';
@@ -199,15 +209,17 @@ class YourBloc extends Bloc<YourEvent, YourState> {
     
     final result = await getItems(NoParams());
     
-    result.fold(
-      (failure) => emit(YourState.error(failure.message)),
-      (items) => emit(YourState.loaded(items)),
-    );
+    switch (result) {
+      case Success(data: final items):
+        emit(YourState.loaded(items));
+      case Error(failure: final error):
+        emit(YourState.error(error.message));
+    }
   }
 }
 ```
 
-## Step 9: Generate Code
+## Step 8: Generate Code
 
 Run code generation:
 
@@ -215,7 +227,7 @@ Run code generation:
 make gen
 ```
 
-## Step 10: Create UI (Presentation Layer)
+## Step 9: Create UI (Presentation Layer)
 
 Create your page in `lib/features/your_feature/presentation/pages/`:
 
@@ -257,13 +269,36 @@ class YourPage extends StatelessWidget {
 }
 ```
 
-## Step 11: Add Route
+## Step 10: Add Route
 
 Add your route in `lib/features/app/presentation/router/app_router.dart`.
 
-## Step 12: Write Tests
+## Step 11: Write Tests
 
 Create tests following the same structure in the `test/` directory.
+
+### Repository Test Example
+
+```dart
+test('should return items when API call succeeds', () async {
+  // arrange
+  final responseData = [{'id': '1', 'name': 'Test'}];
+  final response = Response(
+    data: responseData,
+    statusCode: 200,
+    requestOptions: RequestOptions(path: '/your-endpoint'),
+  );
+  when(mockApiClient.get('/your-endpoint'))
+      .thenAnswer((_) async => response);
+
+  // act
+  final result = await repository.getItems();
+
+  // assert
+  expect(result, isA<Success<List<YourEntity>>>());
+  verify(mockApiClient.get('/your-endpoint')).called(1);
+});
+```
 
 ## Checklist
 
@@ -272,8 +307,7 @@ Create tests following the same structure in the `test/` directory.
 - [ ] Created repository interface
 - [ ] Implemented use cases
 - [ ] Created data model
-- [ ] Implemented data source
-- [ ] Implemented repository
+- [ ] Implemented repository (with ApiClient)
 - [ ] Created BLoC
 - [ ] Generated code (`make gen`)
 - [ ] Created UI pages/widgets

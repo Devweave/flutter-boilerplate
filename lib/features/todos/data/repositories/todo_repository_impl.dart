@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_boilerplate/core/error/failures.dart';
+import 'package:flutter_boilerplate/core/network/api_client.dart';
+import 'package:flutter_boilerplate/core/utils/dio_error_handler.dart';
 import 'package:flutter_boilerplate/core/utils/result.dart';
-import 'package:flutter_boilerplate/features/todos/data/datasources/todo_remote_datasource.dart';
 import 'package:flutter_boilerplate/features/todos/data/models/todo_model.dart';
 import 'package:flutter_boilerplate/features/todos/domain/entities/todo.dart';
 import 'package:flutter_boilerplate/features/todos/domain/repositories/todo_repository.dart';
@@ -9,17 +10,22 @@ import 'package:injectable/injectable.dart';
 
 @Injectable(as: TodoRepository)
 class TodoRepositoryImpl implements TodoRepository {
-  final TodoRemoteDataSource _remoteDataSource;
+  final ApiClient _apiClient;
 
-  TodoRepositoryImpl(this._remoteDataSource);
+  TodoRepositoryImpl(this._apiClient);
 
   @override
   Future<Result<List<Todo>>> getTodos() async {
     try {
-      final todos = await _remoteDataSource.getTodos();
-      return Success(todos.map((model) => model.toEntity()).toList());
+      final response = await _apiClient.get('/todos');
+      final List<dynamic> jsonList = response.data as List<dynamic>;
+      final todos = jsonList
+          .map((json) => TodoModel.fromJson(json))
+          .map((model) => model.toEntity())
+          .toList();
+      return Success(todos);
     } on DioException catch (e) {
-      return Error(_handleDioError(e));
+      return Error(DioErrorHandler.handleDioError(e));
     } catch (e) {
       return Error(ServerFailure(e.toString()));
     }
@@ -28,10 +34,11 @@ class TodoRepositoryImpl implements TodoRepository {
   @override
   Future<Result<Todo>> getTodoById(int id) async {
     try {
-      final todo = await _remoteDataSource.getTodoById(id);
+      final response = await _apiClient.get('/todos/$id');
+      final todo = TodoModel.fromJson(response.data);
       return Success(todo.toEntity());
     } on DioException catch (e) {
-      return Error(_handleDioError(e));
+      return Error(DioErrorHandler.handleDioError(e));
     } catch (e) {
       return Error(ServerFailure(e.toString()));
     }
@@ -41,10 +48,12 @@ class TodoRepositoryImpl implements TodoRepository {
   Future<Result<Todo>> createTodo(Todo todo) async {
     try {
       final todoModel = TodoModel.fromEntity(todo);
-      final createdTodo = await _remoteDataSource.createTodo(todoModel);
+      final response =
+          await _apiClient.post('/todos', data: todoModel.toJson());
+      final createdTodo = TodoModel.fromJson(response.data);
       return Success(createdTodo.toEntity());
     } on DioException catch (e) {
-      return Error(_handleDioError(e));
+      return Error(DioErrorHandler.handleDioError(e));
     } catch (e) {
       return Error(ServerFailure(e.toString()));
     }
@@ -54,10 +63,12 @@ class TodoRepositoryImpl implements TodoRepository {
   Future<Result<Todo>> updateTodo(Todo todo) async {
     try {
       final todoModel = TodoModel.fromEntity(todo);
-      final updatedTodo = await _remoteDataSource.updateTodo(todoModel);
+      final response =
+          await _apiClient.put('/todos/${todo.id}', data: todoModel.toJson());
+      final updatedTodo = TodoModel.fromJson(response.data);
       return Success(updatedTodo.toEntity());
     } on DioException catch (e) {
-      return Error(_handleDioError(e));
+      return Error(DioErrorHandler.handleDioError(e));
     } catch (e) {
       return Error(ServerFailure(e.toString()));
     }
@@ -66,27 +77,12 @@ class TodoRepositoryImpl implements TodoRepository {
   @override
   Future<Result<void>> deleteTodo(int id) async {
     try {
-      await _remoteDataSource.deleteTodo(id);
+      await _apiClient.delete('/todos/$id');
       return const Success(null);
     } on DioException catch (e) {
-      return Error(_handleDioError(e));
+      return Error(DioErrorHandler.handleDioError(e));
     } catch (e) {
       return Error(ServerFailure(e.toString()));
-    }
-  }
-
-  Failure _handleDioError(DioException e) {
-    switch (e.type) {
-      case DioExceptionType.connectionTimeout:
-      case DioExceptionType.sendTimeout:
-      case DioExceptionType.receiveTimeout:
-        return const NetworkFailure('Connection timeout');
-      case DioExceptionType.connectionError:
-        return const NetworkFailure('No internet connection');
-      case DioExceptionType.badResponse:
-        return ServerFailure('Server error: ${e.response?.statusCode}');
-      default:
-        return ServerFailure(e.message ?? 'Unknown error');
     }
   }
 }

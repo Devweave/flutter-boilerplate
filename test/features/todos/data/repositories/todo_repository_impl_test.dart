@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_boilerplate/features/todos/data/repositories/todo_repository_impl.dart';
@@ -10,11 +11,11 @@ import '../../../../helpers/test_setup.dart';
 
 void main() {
   late TodoRepositoryImpl repository;
-  late MockTodoRemoteDataSource mockRemoteDataSource;
+  late MockApiClient mockApiClient;
 
   setUp(() {
-    mockRemoteDataSource = MockTodoRemoteDataSource();
-    repository = TodoRepositoryImpl(mockRemoteDataSource);
+    mockApiClient = MockApiClient();
+    repository = TodoRepositoryImpl(mockApiClient);
     setupTestDummies();
   });
 
@@ -34,11 +35,15 @@ void main() {
     );
 
     group('getTodos', () {
-      test('should return list of todos when data source succeeds', () async {
+      test('should return list of todos when API call succeeds', () async {
         // arrange
-        final todoModels = [todoModel];
-        when(mockRemoteDataSource.getTodos())
-            .thenAnswer((_) async => todoModels);
+        final responseData = [todoModel.toJson()];
+        final response = Response(
+          data: responseData,
+          statusCode: 200,
+          requestOptions: RequestOptions(path: '/todos'),
+        );
+        when(mockApiClient.get('/todos')).thenAnswer((_) async => response);
 
         // act
         final result = await repository.getTodos();
@@ -53,14 +58,12 @@ void main() {
           case Error():
             fail('Should not be an error');
         }
-        verify(mockRemoteDataSource.getTodos()).called(1);
+        verify(mockApiClient.get('/todos')).called(1);
       });
 
-      test('should return server failure when data source throws exception',
-          () async {
+      test('should return server failure when API throws exception', () async {
         // arrange
-        when(mockRemoteDataSource.getTodos())
-            .thenThrow(Exception('Server error'));
+        when(mockApiClient.get('/todos')).thenThrow(Exception('Server error'));
 
         // act
         final result = await repository.getTodos();
@@ -76,11 +79,14 @@ void main() {
         }
       });
 
-      test('should return empty list when data source returns empty list',
-          () async {
+      test('should return empty list when API returns empty list', () async {
         // arrange
-        when(mockRemoteDataSource.getTodos())
-            .thenAnswer((_) async => <TodoModel>[]);
+        final response = Response(
+          data: <dynamic>[],
+          statusCode: 200,
+          requestOptions: RequestOptions(path: '/todos'),
+        );
+        when(mockApiClient.get('/todos')).thenAnswer((_) async => response);
 
         // act
         final result = await repository.getTodos();
@@ -94,14 +100,41 @@ void main() {
             fail('Should not be an error');
         }
       });
+
+      test('should handle DioException correctly', () async {
+        // arrange
+        final dioException = DioException(
+          requestOptions: RequestOptions(path: '/todos'),
+          type: DioExceptionType.connectionTimeout,
+        );
+        when(mockApiClient.get('/todos')).thenThrow(dioException);
+
+        // act
+        final result = await repository.getTodos();
+
+        // assert
+        expect(result, isA<Error<List<Todo>>>());
+        switch (result) {
+          case Success():
+            fail('Should not be a success');
+          case Error(failure: final error):
+            expect(error, isA<NetworkFailure>());
+            expect(error.message, 'Connection timeout');
+        }
+      });
     });
 
     group('getTodoById', () {
-      test('should return todo when data source succeeds', () async {
+      test('should return todo when API call succeeds', () async {
         // arrange
         const todoId = 1;
-        when(mockRemoteDataSource.getTodoById(todoId))
-            .thenAnswer((_) async => todoModel);
+        final response = Response(
+          data: todoModel.toJson(),
+          statusCode: 200,
+          requestOptions: RequestOptions(path: '/todos/$todoId'),
+        );
+        when(mockApiClient.get('/todos/$todoId'))
+            .thenAnswer((_) async => response);
 
         // act
         final result = await repository.getTodoById(todoId);
@@ -115,14 +148,13 @@ void main() {
           case Error():
             fail('Should not be an error');
         }
-        verify(mockRemoteDataSource.getTodoById(todoId)).called(1);
+        verify(mockApiClient.get('/todos/$todoId')).called(1);
       });
 
-      test('should return server failure when data source throws exception',
-          () async {
+      test('should return server failure when API throws exception', () async {
         // arrange
         const todoId = 1;
-        when(mockRemoteDataSource.getTodoById(todoId))
+        when(mockApiClient.get('/todos/$todoId'))
             .thenThrow(Exception('Todo not found'));
 
         // act
@@ -140,8 +172,34 @@ void main() {
       });
     });
 
+    group('createTodo', () {
+      test('should return created todo when API call succeeds', () async {
+        // arrange
+        final response = Response(
+          data: todoModel.toJson(),
+          statusCode: 201,
+          requestOptions: RequestOptions(path: '/todos'),
+        );
+        when(mockApiClient.post('/todos', data: anyNamed('data')))
+            .thenAnswer((_) async => response);
+
+        // act
+        final result = await repository.createTodo(todo);
+
+        // assert
+        expect(result, isA<Success<Todo>>());
+        switch (result) {
+          case Success(data: final createdTodo):
+            expect(createdTodo.id, 1);
+            expect(createdTodo.title, 'Test Todo');
+          case Error():
+            fail('Should not be an error');
+        }
+      });
+    });
+
     group('updateTodo', () {
-      test('should return updated todo when data source succeeds', () async {
+      test('should return updated todo when API call succeeds', () async {
         // arrange
         const updatedTodoModel = TodoModel(
           userId: 1,
@@ -149,9 +207,13 @@ void main() {
           title: 'Updated Todo',
           completed: true,
         );
-
-        when(mockRemoteDataSource.updateTodo(any))
-            .thenAnswer((_) async => updatedTodoModel);
+        final response = Response(
+          data: updatedTodoModel.toJson(),
+          statusCode: 200,
+          requestOptions: RequestOptions(path: '/todos/1'),
+        );
+        when(mockApiClient.put('/todos/${todo.id}', data: anyNamed('data')))
+            .thenAnswer((_) async => response);
 
         // act
         final result = await repository.updateTodo(todo);
@@ -166,13 +228,11 @@ void main() {
           case Error():
             fail('Should not be an error');
         }
-        verify(mockRemoteDataSource.updateTodo(any)).called(1);
       });
 
-      test('should return server failure when data source throws exception',
-          () async {
+      test('should return server failure when API throws exception', () async {
         // arrange
-        when(mockRemoteDataSource.updateTodo(any))
+        when(mockApiClient.put('/todos/${todo.id}', data: anyNamed('data')))
             .thenThrow(Exception('Update failed'));
 
         // act
@@ -188,24 +248,45 @@ void main() {
             expect(error.message, 'Exception: Update failed');
         }
       });
+    });
 
-      test('should convert todo entity to model correctly', () async {
+    group('deleteTodo', () {
+      test('should complete successfully when API call succeeds', () async {
         // arrange
-        const expectedModel = TodoModel(
-          userId: 1,
-          id: 1,
-          title: 'Test Todo',
-          completed: false,
+        const todoId = 1;
+        final response = Response(
+          data: null,
+          statusCode: 204,
+          requestOptions: RequestOptions(path: '/todos/$todoId'),
         );
-
-        when(mockRemoteDataSource.updateTodo(expectedModel))
-            .thenAnswer((_) async => expectedModel);
+        when(mockApiClient.delete('/todos/$todoId'))
+            .thenAnswer((_) async => response);
 
         // act
-        await repository.updateTodo(todo);
+        final result = await repository.deleteTodo(todoId);
 
         // assert
-        verify(mockRemoteDataSource.updateTodo(expectedModel)).called(1);
+        expect(result, isA<Success<void>>());
+        verify(mockApiClient.delete('/todos/$todoId')).called(1);
+      });
+
+      test('should return server failure when API throws exception', () async {
+        // arrange
+        const todoId = 1;
+        when(mockApiClient.delete('/todos/$todoId'))
+            .thenThrow(Exception('Delete failed'));
+
+        // act
+        final result = await repository.deleteTodo(todoId);
+
+        // assert
+        expect(result, isA<Error<void>>());
+        switch (result) {
+          case Success():
+            fail('Should not be a success');
+          case Error(failure: final error):
+            expect(error, isA<ServerFailure>());
+        }
       });
     });
 

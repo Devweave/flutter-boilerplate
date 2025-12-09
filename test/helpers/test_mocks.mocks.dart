@@ -3,42 +3,38 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i8;
+import 'dart:async' as _i7;
 
 import 'package:dio/dio.dart' as _i2;
-import 'package:flutter_bloc/flutter_bloc.dart' as _i18;
-import 'package:flutter_boilerplate/core/network/api_client.dart' as _i9;
+import 'package:flutter_bloc/flutter_bloc.dart' as _i16;
+import 'package:flutter_boilerplate/core/network/api_client.dart' as _i8;
 import 'package:flutter_boilerplate/core/services/local_storage_service.dart'
-    as _i7;
-import 'package:flutter_boilerplate/core/utils/base_usecase.dart' as _i22;
-import 'package:flutter_boilerplate/core/utils/resources.dart' as _i5;
-import 'package:flutter_boilerplate/core/utils/result.dart' as _i11;
-import 'package:flutter_boilerplate/features/auth/domain/entities/user.dart'
-    as _i20;
-import 'package:flutter_boilerplate/features/auth/domain/usecases/login_usecase.dart'
-    as _i19;
-import 'package:flutter_boilerplate/features/auth/domain/usecases/logout_usecase.dart'
-    as _i21;
-import 'package:flutter_boilerplate/features/auth/presentation/bloc/auth_bloc.dart'
     as _i6;
-import 'package:flutter_boilerplate/features/todos/data/datasources/todo_remote_datasource.dart'
-    as _i14;
-import 'package:flutter_boilerplate/features/todos/data/models/todo_model.dart'
-    as _i3;
-import 'package:flutter_boilerplate/features/todos/domain/entities/todo.dart'
-    as _i12;
-import 'package:flutter_boilerplate/features/todos/domain/repositories/todo_repository.dart'
-    as _i10;
-import 'package:flutter_boilerplate/features/todos/domain/usecases/get_todo_by_id.dart'
-    as _i16;
-import 'package:flutter_boilerplate/features/todos/domain/usecases/get_todos.dart'
-    as _i15;
-import 'package:flutter_boilerplate/features/todos/domain/usecases/update_todo.dart'
+import 'package:flutter_boilerplate/core/utils/base_usecase.dart' as _i20;
+import 'package:flutter_boilerplate/core/utils/resources.dart' as _i4;
+import 'package:flutter_boilerplate/core/utils/result.dart' as _i10;
+import 'package:flutter_boilerplate/features/auth/domain/entities/user.dart'
+    as _i18;
+import 'package:flutter_boilerplate/features/auth/domain/usecases/login_usecase.dart'
     as _i17;
+import 'package:flutter_boilerplate/features/auth/domain/usecases/logout_usecase.dart'
+    as _i19;
+import 'package:flutter_boilerplate/features/auth/presentation/bloc/auth_bloc.dart'
+    as _i5;
+import 'package:flutter_boilerplate/features/todos/domain/entities/todo.dart'
+    as _i11;
+import 'package:flutter_boilerplate/features/todos/domain/repositories/todo_repository.dart'
+    as _i9;
+import 'package:flutter_boilerplate/features/todos/domain/usecases/get_todo_by_id.dart'
+    as _i14;
+import 'package:flutter_boilerplate/features/todos/domain/usecases/get_todos.dart'
+    as _i13;
+import 'package:flutter_boilerplate/features/todos/domain/usecases/update_todo.dart'
+    as _i15;
 import 'package:flutter_boilerplate/features/todos/presentation/bloc/todos_bloc.dart'
-    as _i4;
+    as _i3;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i13;
+import 'package:mockito/src/dummies.dart' as _i12;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -64,8 +60,8 @@ class _FakeResponse_0<T1> extends _i1.SmartFake implements _i2.Response<T1> {
         );
 }
 
-class _FakeTodoModel_1 extends _i1.SmartFake implements _i3.TodoModel {
-  _FakeTodoModel_1(
+class _FakeTodosState_1 extends _i1.SmartFake implements _i3.TodosState {
+  _FakeTodosState_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -74,8 +70,8 @@ class _FakeTodoModel_1 extends _i1.SmartFake implements _i3.TodoModel {
         );
 }
 
-class _FakeTodosState_2 extends _i1.SmartFake implements _i4.TodosState {
-  _FakeTodosState_2(
+class _FakeResource_2<T> extends _i1.SmartFake implements _i4.Resource<T> {
+  _FakeResource_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -84,18 +80,8 @@ class _FakeTodosState_2 extends _i1.SmartFake implements _i4.TodosState {
         );
 }
 
-class _FakeResource_3<T> extends _i1.SmartFake implements _i5.Resource<T> {
-  _FakeResource_3(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeAuthState_4 extends _i1.SmartFake implements _i6.AuthState {
-  _FakeAuthState_4(
+class _FakeAuthState_3 extends _i1.SmartFake implements _i5.AuthState {
+  _FakeAuthState_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -108,59 +94,59 @@ class _FakeAuthState_4 extends _i1.SmartFake implements _i6.AuthState {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockLocalStorageService extends _i1.Mock
-    implements _i7.LocalStorageService {
+    implements _i6.LocalStorageService {
   MockLocalStorageService() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i8.Future<bool> setLoggedIn(bool? isLoggedIn) => (super.noSuchMethod(
+  _i7.Future<bool> setLoggedIn(bool? isLoggedIn) => (super.noSuchMethod(
         Invocation.method(
           #setLoggedIn,
           [isLoggedIn],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 
   @override
-  _i8.Future<bool> isLoggedIn() => (super.noSuchMethod(
+  _i7.Future<bool> isLoggedIn() => (super.noSuchMethod(
         Invocation.method(
           #isLoggedIn,
           [],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 
   @override
-  _i8.Future<bool> setUserData(Map<String, dynamic>? userData) =>
+  _i7.Future<bool> setUserData(Map<String, dynamic>? userData) =>
       (super.noSuchMethod(
         Invocation.method(
           #setUserData,
           [userData],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 
   @override
-  _i8.Future<Map<String, dynamic>?> getUserData() => (super.noSuchMethod(
+  _i7.Future<Map<String, dynamic>?> getUserData() => (super.noSuchMethod(
         Invocation.method(
           #getUserData,
           [],
         ),
-        returnValue: _i8.Future<Map<String, dynamic>?>.value(),
-      ) as _i8.Future<Map<String, dynamic>?>);
+        returnValue: _i7.Future<Map<String, dynamic>?>.value(),
+      ) as _i7.Future<Map<String, dynamic>?>);
 
   @override
-  _i8.Future<bool> clearUserData() => (super.noSuchMethod(
+  _i7.Future<bool> clearUserData() => (super.noSuchMethod(
         Invocation.method(
           #clearUserData,
           [],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 
   @override
-  _i8.Future<bool> setString(
+  _i7.Future<bool> setString(
     String? key,
     String? value,
   ) =>
@@ -172,20 +158,20 @@ class MockLocalStorageService extends _i1.Mock
             value,
           ],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 
   @override
-  _i8.Future<String?> getString(String? key) => (super.noSuchMethod(
+  _i7.Future<String?> getString(String? key) => (super.noSuchMethod(
         Invocation.method(
           #getString,
           [key],
         ),
-        returnValue: _i8.Future<String?>.value(),
-      ) as _i8.Future<String?>);
+        returnValue: _i7.Future<String?>.value(),
+      ) as _i7.Future<String?>);
 
   @override
-  _i8.Future<bool> setBool(
+  _i7.Future<bool> setBool(
     String? key,
     bool? value,
   ) =>
@@ -197,11 +183,11 @@ class MockLocalStorageService extends _i1.Mock
             value,
           ],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 
   @override
-  _i8.Future<bool> getBool(
+  _i7.Future<bool> getBool(
     String? key, {
     bool? defaultValue = false,
   }) =>
@@ -211,11 +197,11 @@ class MockLocalStorageService extends _i1.Mock
           [key],
           {#defaultValue: defaultValue},
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 
   @override
-  _i8.Future<bool> setInt(
+  _i7.Future<bool> setInt(
     String? key,
     int? value,
   ) =>
@@ -227,11 +213,11 @@ class MockLocalStorageService extends _i1.Mock
             value,
           ],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 
   @override
-  _i8.Future<int> getInt(
+  _i7.Future<int> getInt(
     String? key, {
     int? defaultValue = 0,
   }) =>
@@ -241,38 +227,38 @@ class MockLocalStorageService extends _i1.Mock
           [key],
           {#defaultValue: defaultValue},
         ),
-        returnValue: _i8.Future<int>.value(0),
-      ) as _i8.Future<int>);
+        returnValue: _i7.Future<int>.value(0),
+      ) as _i7.Future<int>);
 
   @override
-  _i8.Future<bool> remove(String? key) => (super.noSuchMethod(
+  _i7.Future<bool> remove(String? key) => (super.noSuchMethod(
         Invocation.method(
           #remove,
           [key],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 
   @override
-  _i8.Future<bool> clear() => (super.noSuchMethod(
+  _i7.Future<bool> clear() => (super.noSuchMethod(
         Invocation.method(
           #clear,
           [],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 }
 
 /// A class which mocks [ApiClient].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockApiClient extends _i1.Mock implements _i9.ApiClient {
+class MockApiClient extends _i1.Mock implements _i8.ApiClient {
   MockApiClient() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i8.Future<_i2.Response<T>> get<T>(
+  _i7.Future<_i2.Response<T>> get<T>(
     String? path, {
     Map<String, dynamic>? queryParameters,
     _i2.Options? options,
@@ -288,7 +274,7 @@ class MockApiClient extends _i1.Mock implements _i9.ApiClient {
             #cancelToken: cancelToken,
           },
         ),
-        returnValue: _i8.Future<_i2.Response<T>>.value(_FakeResponse_0<T>(
+        returnValue: _i7.Future<_i2.Response<T>>.value(_FakeResponse_0<T>(
           this,
           Invocation.method(
             #get,
@@ -300,10 +286,10 @@ class MockApiClient extends _i1.Mock implements _i9.ApiClient {
             },
           ),
         )),
-      ) as _i8.Future<_i2.Response<T>>);
+      ) as _i7.Future<_i2.Response<T>>);
 
   @override
-  _i8.Future<_i2.Response<T>> post<T>(
+  _i7.Future<_i2.Response<T>> post<T>(
     String? path, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
@@ -321,7 +307,7 @@ class MockApiClient extends _i1.Mock implements _i9.ApiClient {
             #cancelToken: cancelToken,
           },
         ),
-        returnValue: _i8.Future<_i2.Response<T>>.value(_FakeResponse_0<T>(
+        returnValue: _i7.Future<_i2.Response<T>>.value(_FakeResponse_0<T>(
           this,
           Invocation.method(
             #post,
@@ -334,10 +320,10 @@ class MockApiClient extends _i1.Mock implements _i9.ApiClient {
             },
           ),
         )),
-      ) as _i8.Future<_i2.Response<T>>);
+      ) as _i7.Future<_i2.Response<T>>);
 
   @override
-  _i8.Future<_i2.Response<T>> put<T>(
+  _i7.Future<_i2.Response<T>> put<T>(
     String? path, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
@@ -355,7 +341,7 @@ class MockApiClient extends _i1.Mock implements _i9.ApiClient {
             #cancelToken: cancelToken,
           },
         ),
-        returnValue: _i8.Future<_i2.Response<T>>.value(_FakeResponse_0<T>(
+        returnValue: _i7.Future<_i2.Response<T>>.value(_FakeResponse_0<T>(
           this,
           Invocation.method(
             #put,
@@ -368,10 +354,10 @@ class MockApiClient extends _i1.Mock implements _i9.ApiClient {
             },
           ),
         )),
-      ) as _i8.Future<_i2.Response<T>>);
+      ) as _i7.Future<_i2.Response<T>>);
 
   @override
-  _i8.Future<_i2.Response<T>> delete<T>(
+  _i7.Future<_i2.Response<T>> delete<T>(
     String? path, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
@@ -389,7 +375,7 @@ class MockApiClient extends _i1.Mock implements _i9.ApiClient {
             #cancelToken: cancelToken,
           },
         ),
-        returnValue: _i8.Future<_i2.Response<T>>.value(_FakeResponse_0<T>(
+        returnValue: _i7.Future<_i2.Response<T>>.value(_FakeResponse_0<T>(
           this,
           Invocation.method(
             #delete,
@@ -402,275 +388,199 @@ class MockApiClient extends _i1.Mock implements _i9.ApiClient {
             },
           ),
         )),
-      ) as _i8.Future<_i2.Response<T>>);
+      ) as _i7.Future<_i2.Response<T>>);
 }
 
 /// A class which mocks [TodoRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockTodoRepository extends _i1.Mock implements _i10.TodoRepository {
+class MockTodoRepository extends _i1.Mock implements _i9.TodoRepository {
   MockTodoRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i8.Future<_i11.Result<List<_i12.Todo>>> getTodos() => (super.noSuchMethod(
+  _i7.Future<_i10.Result<List<_i11.Todo>>> getTodos() => (super.noSuchMethod(
         Invocation.method(
           #getTodos,
           [],
         ),
-        returnValue: _i8.Future<_i11.Result<List<_i12.Todo>>>.value(
-            _i13.dummyValue<_i11.Result<List<_i12.Todo>>>(
+        returnValue: _i7.Future<_i10.Result<List<_i11.Todo>>>.value(
+            _i12.dummyValue<_i10.Result<List<_i11.Todo>>>(
           this,
           Invocation.method(
             #getTodos,
             [],
           ),
         )),
-      ) as _i8.Future<_i11.Result<List<_i12.Todo>>>);
+      ) as _i7.Future<_i10.Result<List<_i11.Todo>>>);
 
   @override
-  _i8.Future<_i11.Result<_i12.Todo>> getTodoById(int? id) =>
+  _i7.Future<_i10.Result<_i11.Todo>> getTodoById(int? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getTodoById,
           [id],
         ),
-        returnValue: _i8.Future<_i11.Result<_i12.Todo>>.value(
-            _i13.dummyValue<_i11.Result<_i12.Todo>>(
+        returnValue: _i7.Future<_i10.Result<_i11.Todo>>.value(
+            _i12.dummyValue<_i10.Result<_i11.Todo>>(
           this,
           Invocation.method(
             #getTodoById,
             [id],
           ),
         )),
-      ) as _i8.Future<_i11.Result<_i12.Todo>>);
+      ) as _i7.Future<_i10.Result<_i11.Todo>>);
 
   @override
-  _i8.Future<_i11.Result<_i12.Todo>> createTodo(_i12.Todo? todo) =>
+  _i7.Future<_i10.Result<_i11.Todo>> createTodo(_i11.Todo? todo) =>
       (super.noSuchMethod(
         Invocation.method(
           #createTodo,
           [todo],
         ),
-        returnValue: _i8.Future<_i11.Result<_i12.Todo>>.value(
-            _i13.dummyValue<_i11.Result<_i12.Todo>>(
+        returnValue: _i7.Future<_i10.Result<_i11.Todo>>.value(
+            _i12.dummyValue<_i10.Result<_i11.Todo>>(
           this,
           Invocation.method(
             #createTodo,
             [todo],
           ),
         )),
-      ) as _i8.Future<_i11.Result<_i12.Todo>>);
+      ) as _i7.Future<_i10.Result<_i11.Todo>>);
 
   @override
-  _i8.Future<_i11.Result<_i12.Todo>> updateTodo(_i12.Todo? todo) =>
+  _i7.Future<_i10.Result<_i11.Todo>> updateTodo(_i11.Todo? todo) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateTodo,
           [todo],
         ),
-        returnValue: _i8.Future<_i11.Result<_i12.Todo>>.value(
-            _i13.dummyValue<_i11.Result<_i12.Todo>>(
+        returnValue: _i7.Future<_i10.Result<_i11.Todo>>.value(
+            _i12.dummyValue<_i10.Result<_i11.Todo>>(
           this,
           Invocation.method(
             #updateTodo,
             [todo],
           ),
         )),
-      ) as _i8.Future<_i11.Result<_i12.Todo>>);
+      ) as _i7.Future<_i10.Result<_i11.Todo>>);
 
   @override
-  _i8.Future<_i11.Result<void>> deleteTodo(int? id) => (super.noSuchMethod(
+  _i7.Future<_i10.Result<void>> deleteTodo(int? id) => (super.noSuchMethod(
         Invocation.method(
           #deleteTodo,
           [id],
         ),
-        returnValue: _i8.Future<_i11.Result<void>>.value(
-            _i13.dummyValue<_i11.Result<void>>(
+        returnValue: _i7.Future<_i10.Result<void>>.value(
+            _i12.dummyValue<_i10.Result<void>>(
           this,
           Invocation.method(
             #deleteTodo,
             [id],
           ),
         )),
-      ) as _i8.Future<_i11.Result<void>>);
-}
-
-/// A class which mocks [TodoRemoteDataSource].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockTodoRemoteDataSource extends _i1.Mock
-    implements _i14.TodoRemoteDataSource {
-  MockTodoRemoteDataSource() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i8.Future<List<_i3.TodoModel>> getTodos() => (super.noSuchMethod(
-        Invocation.method(
-          #getTodos,
-          [],
-        ),
-        returnValue: _i8.Future<List<_i3.TodoModel>>.value(<_i3.TodoModel>[]),
-      ) as _i8.Future<List<_i3.TodoModel>>);
-
-  @override
-  _i8.Future<_i3.TodoModel> getTodoById(int? id) => (super.noSuchMethod(
-        Invocation.method(
-          #getTodoById,
-          [id],
-        ),
-        returnValue: _i8.Future<_i3.TodoModel>.value(_FakeTodoModel_1(
-          this,
-          Invocation.method(
-            #getTodoById,
-            [id],
-          ),
-        )),
-      ) as _i8.Future<_i3.TodoModel>);
-
-  @override
-  _i8.Future<_i3.TodoModel> createTodo(_i3.TodoModel? todo) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #createTodo,
-          [todo],
-        ),
-        returnValue: _i8.Future<_i3.TodoModel>.value(_FakeTodoModel_1(
-          this,
-          Invocation.method(
-            #createTodo,
-            [todo],
-          ),
-        )),
-      ) as _i8.Future<_i3.TodoModel>);
-
-  @override
-  _i8.Future<_i3.TodoModel> updateTodo(_i3.TodoModel? todo) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #updateTodo,
-          [todo],
-        ),
-        returnValue: _i8.Future<_i3.TodoModel>.value(_FakeTodoModel_1(
-          this,
-          Invocation.method(
-            #updateTodo,
-            [todo],
-          ),
-        )),
-      ) as _i8.Future<_i3.TodoModel>);
-
-  @override
-  _i8.Future<void> deleteTodo(int? id) => (super.noSuchMethod(
-        Invocation.method(
-          #deleteTodo,
-          [id],
-        ),
-        returnValue: _i8.Future<void>.value(),
-        returnValueForMissingStub: _i8.Future<void>.value(),
-      ) as _i8.Future<void>);
+      ) as _i7.Future<_i10.Result<void>>);
 }
 
 /// A class which mocks [GetTodos].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGetTodos extends _i1.Mock implements _i15.GetTodos {
+class MockGetTodos extends _i1.Mock implements _i13.GetTodos {
   MockGetTodos() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i8.Future<_i11.Result<List<_i12.Todo>>> call() => (super.noSuchMethod(
+  _i7.Future<_i10.Result<List<_i11.Todo>>> call() => (super.noSuchMethod(
         Invocation.method(
           #call,
           [],
         ),
-        returnValue: _i8.Future<_i11.Result<List<_i12.Todo>>>.value(
-            _i13.dummyValue<_i11.Result<List<_i12.Todo>>>(
+        returnValue: _i7.Future<_i10.Result<List<_i11.Todo>>>.value(
+            _i12.dummyValue<_i10.Result<List<_i11.Todo>>>(
           this,
           Invocation.method(
             #call,
             [],
           ),
         )),
-      ) as _i8.Future<_i11.Result<List<_i12.Todo>>>);
+      ) as _i7.Future<_i10.Result<List<_i11.Todo>>>);
 }
 
 /// A class which mocks [GetTodoById].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGetTodoById extends _i1.Mock implements _i16.GetTodoById {
+class MockGetTodoById extends _i1.Mock implements _i14.GetTodoById {
   MockGetTodoById() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i8.Future<_i11.Result<_i12.Todo>> call(int? id) => (super.noSuchMethod(
+  _i7.Future<_i10.Result<_i11.Todo>> call(int? id) => (super.noSuchMethod(
         Invocation.method(
           #call,
           [id],
         ),
-        returnValue: _i8.Future<_i11.Result<_i12.Todo>>.value(
-            _i13.dummyValue<_i11.Result<_i12.Todo>>(
+        returnValue: _i7.Future<_i10.Result<_i11.Todo>>.value(
+            _i12.dummyValue<_i10.Result<_i11.Todo>>(
           this,
           Invocation.method(
             #call,
             [id],
           ),
         )),
-      ) as _i8.Future<_i11.Result<_i12.Todo>>);
+      ) as _i7.Future<_i10.Result<_i11.Todo>>);
 }
 
 /// A class which mocks [UpdateTodo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUpdateTodo extends _i1.Mock implements _i17.UpdateTodo {
+class MockUpdateTodo extends _i1.Mock implements _i15.UpdateTodo {
   MockUpdateTodo() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i8.Future<_i11.Result<_i12.Todo>> call(_i12.Todo? todo) =>
+  _i7.Future<_i10.Result<_i11.Todo>> call(_i11.Todo? todo) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [todo],
         ),
-        returnValue: _i8.Future<_i11.Result<_i12.Todo>>.value(
-            _i13.dummyValue<_i11.Result<_i12.Todo>>(
+        returnValue: _i7.Future<_i10.Result<_i11.Todo>>.value(
+            _i12.dummyValue<_i10.Result<_i11.Todo>>(
           this,
           Invocation.method(
             #call,
             [todo],
           ),
         )),
-      ) as _i8.Future<_i11.Result<_i12.Todo>>);
+      ) as _i7.Future<_i10.Result<_i11.Todo>>);
 }
 
 /// A class which mocks [TodosBloc].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockTodosBloc extends _i1.Mock implements _i4.TodosBloc {
+class MockTodosBloc extends _i1.Mock implements _i3.TodosBloc {
   MockTodosBloc() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.TodosState get state => (super.noSuchMethod(
+  _i3.TodosState get state => (super.noSuchMethod(
         Invocation.getter(#state),
-        returnValue: _FakeTodosState_2(
+        returnValue: _FakeTodosState_1(
           this,
           Invocation.getter(#state),
         ),
-      ) as _i4.TodosState);
+      ) as _i3.TodosState);
 
   @override
-  _i8.Stream<_i4.TodosState> get stream => (super.noSuchMethod(
+  _i7.Stream<_i3.TodosState> get stream => (super.noSuchMethod(
         Invocation.getter(#stream),
-        returnValue: _i8.Stream<_i4.TodosState>.empty(),
-      ) as _i8.Stream<_i4.TodosState>);
+        returnValue: _i7.Stream<_i3.TodosState>.empty(),
+      ) as _i7.Stream<_i3.TodosState>);
 
   @override
   bool get isClosed => (super.noSuchMethod(
@@ -679,7 +589,7 @@ class MockTodosBloc extends _i1.Mock implements _i4.TodosBloc {
       ) as bool);
 
   @override
-  void add(_i4.TodosEvent? event) => super.noSuchMethod(
+  void add(_i3.TodosEvent? event) => super.noSuchMethod(
         Invocation.method(
           #add,
           [event],
@@ -688,7 +598,7 @@ class MockTodosBloc extends _i1.Mock implements _i4.TodosBloc {
       );
 
   @override
-  void onEvent(_i4.TodosEvent? event) => super.noSuchMethod(
+  void onEvent(_i3.TodosEvent? event) => super.noSuchMethod(
         Invocation.method(
           #onEvent,
           [event],
@@ -697,7 +607,7 @@ class MockTodosBloc extends _i1.Mock implements _i4.TodosBloc {
       );
 
   @override
-  void emit(_i4.TodosState? state) => super.noSuchMethod(
+  void emit(_i3.TodosState? state) => super.noSuchMethod(
         Invocation.method(
           #emit,
           [state],
@@ -706,9 +616,9 @@ class MockTodosBloc extends _i1.Mock implements _i4.TodosBloc {
       );
 
   @override
-  void on<E extends _i4.TodosEvent>(
-    _i18.EventHandler<E, _i4.TodosState>? handler, {
-    _i18.EventTransformer<E>? transformer,
+  void on<E extends _i3.TodosEvent>(
+    _i16.EventHandler<E, _i3.TodosState>? handler, {
+    _i16.EventTransformer<E>? transformer,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -721,7 +631,7 @@ class MockTodosBloc extends _i1.Mock implements _i4.TodosBloc {
 
   @override
   void onTransition(
-          _i18.Transition<_i4.TodosEvent, _i4.TodosState>? transition) =>
+          _i16.Transition<_i3.TodosEvent, _i3.TodosState>? transition) =>
       super.noSuchMethod(
         Invocation.method(
           #onTransition,
@@ -731,17 +641,17 @@ class MockTodosBloc extends _i1.Mock implements _i4.TodosBloc {
       );
 
   @override
-  _i8.Future<void> close() => (super.noSuchMethod(
+  _i7.Future<void> close() => (super.noSuchMethod(
         Invocation.method(
           #close,
           [],
         ),
-        returnValue: _i8.Future<void>.value(),
-        returnValueForMissingStub: _i8.Future<void>.value(),
-      ) as _i8.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  void onChange(_i18.Change<_i4.TodosState>? change) => super.noSuchMethod(
+  void onChange(_i16.Change<_i3.TodosState>? change) => super.noSuchMethod(
         Invocation.method(
           #onChange,
           [change],
@@ -785,76 +695,76 @@ class MockTodosBloc extends _i1.Mock implements _i4.TodosBloc {
 /// A class which mocks [LoginUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLoginUseCase extends _i1.Mock implements _i19.LoginUseCase {
+class MockLoginUseCase extends _i1.Mock implements _i17.LoginUseCase {
   MockLoginUseCase() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i8.Future<_i5.Resource<_i20.User>> call(_i19.LoginParams? params) =>
+  _i7.Future<_i4.Resource<_i18.User>> call(_i17.LoginParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i8.Future<_i5.Resource<_i20.User>>.value(
-            _FakeResource_3<_i20.User>(
+        returnValue: _i7.Future<_i4.Resource<_i18.User>>.value(
+            _FakeResource_2<_i18.User>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i8.Future<_i5.Resource<_i20.User>>);
+      ) as _i7.Future<_i4.Resource<_i18.User>>);
 }
 
 /// A class which mocks [LogoutUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLogoutUseCase extends _i1.Mock implements _i21.LogoutUseCase {
+class MockLogoutUseCase extends _i1.Mock implements _i19.LogoutUseCase {
   MockLogoutUseCase() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i8.Future<_i5.Resource<bool>> call(_i22.NoParams? params) =>
+  _i7.Future<_i4.Resource<bool>> call(_i20.NoParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i8.Future<_i5.Resource<bool>>.value(_FakeResource_3<bool>(
+        returnValue: _i7.Future<_i4.Resource<bool>>.value(_FakeResource_2<bool>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i8.Future<_i5.Resource<bool>>);
+      ) as _i7.Future<_i4.Resource<bool>>);
 }
 
 /// A class which mocks [AuthBloc].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAuthBloc extends _i1.Mock implements _i6.AuthBloc {
+class MockAuthBloc extends _i1.Mock implements _i5.AuthBloc {
   MockAuthBloc() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i6.AuthState get state => (super.noSuchMethod(
+  _i5.AuthState get state => (super.noSuchMethod(
         Invocation.getter(#state),
-        returnValue: _FakeAuthState_4(
+        returnValue: _FakeAuthState_3(
           this,
           Invocation.getter(#state),
         ),
-      ) as _i6.AuthState);
+      ) as _i5.AuthState);
 
   @override
-  _i8.Stream<_i6.AuthState> get stream => (super.noSuchMethod(
+  _i7.Stream<_i5.AuthState> get stream => (super.noSuchMethod(
         Invocation.getter(#stream),
-        returnValue: _i8.Stream<_i6.AuthState>.empty(),
-      ) as _i8.Stream<_i6.AuthState>);
+        returnValue: _i7.Stream<_i5.AuthState>.empty(),
+      ) as _i7.Stream<_i5.AuthState>);
 
   @override
   bool get isClosed => (super.noSuchMethod(
@@ -863,7 +773,7 @@ class MockAuthBloc extends _i1.Mock implements _i6.AuthBloc {
       ) as bool);
 
   @override
-  void add(_i6.AuthEvent? event) => super.noSuchMethod(
+  void add(_i5.AuthEvent? event) => super.noSuchMethod(
         Invocation.method(
           #add,
           [event],
@@ -872,7 +782,7 @@ class MockAuthBloc extends _i1.Mock implements _i6.AuthBloc {
       );
 
   @override
-  void onEvent(_i6.AuthEvent? event) => super.noSuchMethod(
+  void onEvent(_i5.AuthEvent? event) => super.noSuchMethod(
         Invocation.method(
           #onEvent,
           [event],
@@ -881,7 +791,7 @@ class MockAuthBloc extends _i1.Mock implements _i6.AuthBloc {
       );
 
   @override
-  void emit(_i6.AuthState? state) => super.noSuchMethod(
+  void emit(_i5.AuthState? state) => super.noSuchMethod(
         Invocation.method(
           #emit,
           [state],
@@ -890,9 +800,9 @@ class MockAuthBloc extends _i1.Mock implements _i6.AuthBloc {
       );
 
   @override
-  void on<E extends _i6.AuthEvent>(
-    _i18.EventHandler<E, _i6.AuthState>? handler, {
-    _i18.EventTransformer<E>? transformer,
+  void on<E extends _i5.AuthEvent>(
+    _i16.EventHandler<E, _i5.AuthState>? handler, {
+    _i16.EventTransformer<E>? transformer,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -905,7 +815,7 @@ class MockAuthBloc extends _i1.Mock implements _i6.AuthBloc {
 
   @override
   void onTransition(
-          _i18.Transition<_i6.AuthEvent, _i6.AuthState>? transition) =>
+          _i16.Transition<_i5.AuthEvent, _i5.AuthState>? transition) =>
       super.noSuchMethod(
         Invocation.method(
           #onTransition,
@@ -915,17 +825,17 @@ class MockAuthBloc extends _i1.Mock implements _i6.AuthBloc {
       );
 
   @override
-  _i8.Future<void> close() => (super.noSuchMethod(
+  _i7.Future<void> close() => (super.noSuchMethod(
         Invocation.method(
           #close,
           [],
         ),
-        returnValue: _i8.Future<void>.value(),
-        returnValueForMissingStub: _i8.Future<void>.value(),
-      ) as _i8.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  void onChange(_i18.Change<_i6.AuthState>? change) => super.noSuchMethod(
+  void onChange(_i16.Change<_i5.AuthState>? change) => super.noSuchMethod(
         Invocation.method(
           #onChange,
           [change],

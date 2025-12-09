@@ -21,8 +21,6 @@ import 'package:flutter_boilerplate/features/auth/domain/usecases/logout_usecase
     as _i261;
 import 'package:flutter_boilerplate/features/auth/presentation/bloc/auth_bloc.dart'
     as _i761;
-import 'package:flutter_boilerplate/features/todos/data/datasources/todo_remote_datasource.dart'
-    as _i553;
 import 'package:flutter_boilerplate/features/todos/data/repositories/todo_repository_impl.dart'
     as _i846;
 import 'package:flutter_boilerplate/features/todos/domain/repositories/todo_repository.dart'
@@ -58,14 +56,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i868.ApiClient>(() => _i868.ApiClient(gh<_i361.Dio>()));
     gh.lazySingleton<_i1018.LocalStorageService>(
         () => _i1018.LocalStorageService(gh<_i558.FlutterSecureStorage>()));
-    gh.factory<_i553.TodoRemoteDataSource>(
-        () => _i553.TodoRemoteDataSourceImpl(gh<_i868.ApiClient>()));
     gh.factory<_i906.TodoRepository>(
-        () => _i846.TodoRepositoryImpl(gh<_i553.TodoRemoteDataSource>()));
-    gh.factory<_i668.LoginUseCase>(
-        () => _i668.LoginUseCase(gh<_i1018.LocalStorageService>()));
-    gh.factory<_i261.LogoutUseCase>(
-        () => _i261.LogoutUseCase(gh<_i1018.LocalStorageService>()));
+        () => _i846.TodoRepositoryImpl(gh<_i868.ApiClient>()));
     gh.factory<_i732.UpdateTodo>(
         () => _i732.UpdateTodo(gh<_i906.TodoRepository>()));
     gh.factory<_i1054.GetTodos>(
@@ -76,6 +68,10 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i1054.GetTodos>(),
           gh<_i732.UpdateTodo>(),
         ));
+    gh.factory<_i668.LoginUseCase>(
+        () => _i668.LoginUseCase(gh<_i1018.LocalStorageService>()));
+    gh.factory<_i261.LogoutUseCase>(
+        () => _i261.LogoutUseCase(gh<_i1018.LocalStorageService>()));
     gh.factory<_i761.AuthBloc>(() => _i761.AuthBloc(
           gh<_i668.LoginUseCase>(),
           gh<_i261.LogoutUseCase>(),
