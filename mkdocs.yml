@@ -1,0 +1,75 @@
+site_name: Flutter Boilerplate
+site_description: Production-ready Flutter boilerplate with Clean Architecture
+site_author: Devweave
+repo_url: https://github.com/Devweave/flutter-boilerplate
+edit_uri: edit/master/docs/
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+plugins:
+  - search
+  - techdocs-core
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - pymdownx.details
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Quick Start: getting-started/quick-start.md
+      - Installation: getting-started/installation.md
+      - Configuration: getting-started/configuration.md
+  - Architecture:
+      - Overview: architecture/overview.md
+      - Clean Architecture: architecture/clean-architecture.md
+      - Project Structure: architecture/project-structure.md
+      - Data Flow: architecture/data-flow.md
+  - Features:
+      - Authentication: features/authentication.md
+      - State Management: features/state-management.md
+      - Routing: features/routing.md
+      - Networking: features/networking.md
+      - Localization: features/localization.md
+      - Storage: features/storage.md
+  - Development:
+      - Development Tools: development/tools.md
+      - Testing: development/testing.md
+      - Code Generation: development/code-generation.md
+      - Git Hooks: development/git-hooks.md
+  - Guides:
+      - Adding a Feature: guides/adding-feature.md
+      - Creating Use Cases: guides/creating-usecases.md
+      - API Integration: guides/api-integration.md
+      - Theming: guides/theming.md
+  - Reference:
+      - Dependencies: reference/dependencies.md
+      - Makefile Commands: reference/makefile.md
+      - Best Practices: reference/best-practices.md
