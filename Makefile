@@ -124,8 +124,12 @@ change-app-name:
 	find lib test -name "*.bak" -delete; \
 	if [ -f catalog-info.yaml ]; then \
 		echo "📝 Updating catalog-info.yaml"; \
+		sed -i.bak "s/^  name: .*/  name: $$EFFECTIVE_NAME_CLEAN/" catalog-info.yaml; \
 		sed -i.bak "s/^  description: .*/  description: Flutter application - ${APP_NAME}/" catalog-info.yaml; \
+		sed -i.bak "s|^    github.com/project-slug: .*|    github.com/project-slug: Devweave/$$EFFECTIVE_NAME_CLEAN|" catalog-info.yaml; \
 		sed -i.bak "s/^  package_name: .*/  package_name: $$EFFECTIVE_NAME_CLEAN/" catalog-info.yaml; \
+		sed -i.bak "s|^    - url: https://github.com/Devweave/.*      title: Repository|    - url: https://github.com/Devweave/$$EFFECTIVE_NAME_CLEAN      title: Repository|" catalog-info.yaml; \
+		sed -i.bak "s|^    - url: https://github.com/Devweave/.*/actions      title: CI/CD Pipeline|    - url: https://github.com/Devweave/$$EFFECTIVE_NAME_CLEAN/actions      title: CI/CD Pipeline|" catalog-info.yaml; \
 		rm catalog-info.yaml.bak; \
 		echo "✅ catalog-info.yaml updated"; \
 	else \
